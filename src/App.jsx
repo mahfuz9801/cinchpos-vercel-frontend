@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 const downloadLinks = {
   windows: import.meta.env.VITE_WINDOWS_DOWNLOAD_URL || "/downloads/CinchPOS-Setup.exe",
@@ -345,15 +345,19 @@ function Hero({ recommendedDownload, setActiveTab, openAdvisor }) {
       </div>
 
       <div className="glass-card relative overflow-hidden rounded-[2rem] p-5 sm:p-6">
-        <div className="absolute right-6 top-6 rounded-full bg-cinch-mint px-4 py-2 text-xs font-black text-cinch-black shadow-glow">
-          {recommendedDownload.fileName}
-        </div>
         <div className="rounded-[1.5rem] border border-cinch-muted/20 bg-cinch-black p-4 text-cinch-soft">
-          <div className="mb-4 flex items-center gap-2">
-            <span className="h-3 w-3 rounded-full bg-cinch-danger" />
-            <span className="h-3 w-3 rounded-full bg-cinch-warning" />
-            <span className="h-3 w-3 rounded-full bg-cinch-success" />
-            <span className="ml-auto text-xs font-black text-cinch-mint">CinchPOS Workspace</span>
+          <div className="mb-4 flex flex-wrap items-center gap-2">
+            <div className="flex items-center gap-2">
+              <span className="h-3 w-3 rounded-full bg-cinch-danger" />
+              <span className="h-3 w-3 rounded-full bg-cinch-warning" />
+              <span className="h-3 w-3 rounded-full bg-cinch-success" />
+            </div>
+            <span className="ml-auto rounded-full border border-cinch-mint/30 px-3 py-1 text-xs font-black text-cinch-mint">
+              CinchPOS Workspace
+            </span>
+            <span className="rounded-full bg-cinch-mint px-3 py-1 text-xs font-black text-cinch-black shadow-glow">
+              {recommendedDownload.fileName}
+            </span>
           </div>
           <div className="grid gap-3 sm:grid-cols-[0.85fr_1fr]">
             <div className="space-y-2">
@@ -396,7 +400,7 @@ function Hero({ recommendedDownload, setActiveTab, openAdvisor }) {
   );
 }
 
-function DownloadTab({ recommendedDownload, setActiveTab }) {
+function DownloadTab({ recommendedDownload }) {
   const downloads = [
     {
       os: "Windows",
@@ -413,8 +417,7 @@ function DownloadTab({ recommendedDownload, setActiveTab }) {
   ];
 
   return (
-    <div className="grid gap-5 lg:grid-cols-[1fr_360px]">
-      <section className="grid gap-4 md:grid-cols-2">
+    <div className="grid gap-4 md:grid-cols-2">
         {downloads.map((item) => (
           <article
             key={item.os}
@@ -437,23 +440,6 @@ function DownloadTab({ recommendedDownload, setActiveTab }) {
             </a>
           </article>
         ))}
-      </section>
-
-      <aside className="glass-card rounded-[1.75rem] p-6">
-        <span className="chip">Smart detection</span>
-        <h2 className="mt-5 font-display text-3xl font-bold tracking-[-0.06em]">
-          Download for {recommendedDownload.os}
-        </h2>
-        <p className="mt-3 text-sm font-semibold leading-7 text-cinch-muted dark:text-cinch-slate">
-          {recommendedDownload.description} The button below uses the platform detected from the customer’s browser.
-        </p>
-        <a className="primary-button mt-6 w-full" href={recommendedDownload.url} download>
-          Download {recommendedDownload.fileName}
-        </a>
-        <button className="secondary-button mt-3 w-full" onClick={() => setActiveTab("features")}>
-          See what is included
-        </button>
-      </aside>
     </div>
   );
 }
