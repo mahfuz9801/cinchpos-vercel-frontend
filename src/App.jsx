@@ -1,8 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react";
 
+const installerVersion = "2026-06-10";
+
 const downloadLinks = {
-  windows: import.meta.env.VITE_WINDOWS_DOWNLOAD_URL || "/downloads/CinchPOS-Setup.exe",
-  mac: import.meta.env.VITE_MAC_DOWNLOAD_URL || "/downloads/CinchPOS.dmg"
+  windows:
+    import.meta.env.VITE_WINDOWS_DOWNLOAD_URL ||
+    `/downloads/CinchPOS-Setup.exe?v=${installerVersion}`,
+  mac:
+    import.meta.env.VITE_MAC_DOWNLOAD_URL ||
+    `/downloads/CinchPOS.dmg?v=${installerVersion}`
 };
 
 const tabs = [
@@ -246,7 +252,7 @@ function App() {
               <option value="light">Light</option>
               <option value="dark">Dark</option>
             </select>
-            <a className="primary-button px-4 py-2" href={recommendedDownload.url} download>
+            <a className="primary-button px-4 py-2" href={recommendedDownload.url} download={recommendedDownload.fileName}>
               Download
             </a>
           </div>
@@ -332,7 +338,7 @@ function Hero({ recommendedDownload, setActiveTab, openAdvisor }) {
           feature guidance, and a smart advisor that helps customers avoid buying what they do not need.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <a className="primary-button" href={recommendedDownload.url} download>
+          <a className="primary-button" href={recommendedDownload.url} download={recommendedDownload.fileName}>
             Download for {recommendedDownload.os}
           </a>
           <button className="secondary-button" onClick={() => setActiveTab("pricing")}>
@@ -435,7 +441,7 @@ function DownloadTab({ recommendedDownload }) {
             <p className="mt-3 min-h-20 text-sm font-semibold leading-7 text-cinch-muted dark:text-cinch-slate">
               {item.body}
             </p>
-            <a className="primary-button mt-6 w-full" href={item.url} download>
+            <a className="primary-button mt-6 w-full" href={item.url} download={item.file}>
               Download {item.file}
             </a>
           </article>
