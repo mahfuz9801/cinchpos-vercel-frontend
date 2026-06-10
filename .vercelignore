@@ -1,0 +1,4 @@
+public/downloads/*.exe
+public/downloads/*.dmg
+node_modules
+dist

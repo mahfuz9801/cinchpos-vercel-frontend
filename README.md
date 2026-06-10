@@ -17,12 +17,13 @@ npm run build
 
 ## Download URLs
 
-Defaults:
+Production defaults use Vercel Blob because the installers are larger than the
+normal Vercel and GitHub file upload limits:
 
-- Windows: `/downloads/CinchPOS-Setup.exe`
-- macOS: `/downloads/CinchPOS.dmg`
+- Windows: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe`
+- macOS: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg`
 
-For Vercel production, add environment variables if your installer files are hosted externally:
+To override those URLs later, add these Vercel environment variables:
 
 - `VITE_WINDOWS_DOWNLOAD_URL`
 - `VITE_MAC_DOWNLOAD_URL`

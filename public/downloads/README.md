@@ -1,11 +1,15 @@
 # CinchPOS Installer Files
 
-The frontend buttons use these default paths:
+The real production downloads are hosted on Vercel Blob:
 
-- `/downloads/CinchPOS-Setup.exe`
-- `/downloads/CinchPOS.dmg`
+- Windows: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe`
+- macOS: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg`
 
-For Vercel, very large installer files may exceed upload or Git hosting limits. If that happens, host the installers on GitHub Releases, S3, Cloudflare R2, or another file host, then set:
+The local files in this folder are kept for development and backup. They are
+ignored during direct Vercel CLI deploys by `.vercelignore` because each file is
+larger than 100 MB.
+
+To override the hosted URLs later, set:
 
 - `VITE_WINDOWS_DOWNLOAD_URL`
 - `VITE_MAC_DOWNLOAD_URL`

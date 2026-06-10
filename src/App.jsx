@@ -1,14 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react";
 
-const installerVersion = "2026-06-10";
+const hostedDownloadLinks = {
+  windows:
+    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe",
+  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg"
+};
 
 const downloadLinks = {
-  windows:
-    import.meta.env.VITE_WINDOWS_DOWNLOAD_URL ||
-    `/downloads/CinchPOS-Setup.exe?v=${installerVersion}`,
-  mac:
-    import.meta.env.VITE_MAC_DOWNLOAD_URL ||
-    `/downloads/CinchPOS.dmg?v=${installerVersion}`
+  windows: import.meta.env.VITE_WINDOWS_DOWNLOAD_URL || hostedDownloadLinks.windows,
+  mac: import.meta.env.VITE_MAC_DOWNLOAD_URL || hostedDownloadLinks.mac
 };
 
 const tabs = [
