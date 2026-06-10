@@ -2,7 +2,7 @@
 
 The real production downloads are hosted on Vercel Blob:
 
-- Windows: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe`
+- Windows: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=2026-06-11-50feab30`
 - macOS: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg`
 
 The local files in this folder are kept for development and backup. They are

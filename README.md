@@ -20,7 +20,7 @@ npm run build
 Production defaults use Vercel Blob because the installers are larger than the
 normal Vercel and GitHub file upload limits:
 
-- Windows: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe`
+- Windows: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=2026-06-11-50feab30`
 - macOS: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg`
 
 To override those URLs later, add these Vercel environment variables:
