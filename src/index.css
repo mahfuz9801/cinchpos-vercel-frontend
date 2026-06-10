@@ -1,0 +1,103 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+    background: #e6f4ea;
+  }
+
+  .dark {
+    color-scheme: dark;
+    background: #050807;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-width: 320px;
+    margin: 0;
+    font-family: "Manrope", ui-sans-serif, system-ui, sans-serif;
+    @apply bg-cinch-soft text-cinch-black antialiased dark:bg-cinch-black dark:text-cinch-soft;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply border border-cinch-muted/25 bg-white/70 shadow-soft backdrop-blur-2xl dark:border-cinch-muted/25 dark:bg-cinch-charcoal/75;
+  }
+
+  .tab-button {
+    @apply rounded-full px-4 py-2 text-sm font-extrabold text-cinch-muted transition hover:text-cinch-black dark:text-cinch-slate dark:hover:text-cinch-soft;
+  }
+
+  .tab-button-active {
+    @apply bg-cinch-mint text-cinch-black shadow-glow;
+  }
+
+  .primary-button {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl bg-cinch-mint px-5 py-3 text-sm font-black text-cinch-black shadow-glow transition hover:-translate-y-0.5 hover:bg-cinch-emerald focus:outline-none focus:ring-4 focus:ring-cinch-emerald/25;
+  }
+
+  .secondary-button {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl border border-cinch-muted/40 bg-white/60 px-5 py-3 text-sm font-black text-cinch-forest transition hover:-translate-y-0.5 hover:border-cinch-emerald/60 hover:bg-cinch-mint/30 dark:bg-cinch-panel/70 dark:text-cinch-soft;
+  }
+
+  .chip {
+    @apply rounded-full border border-cinch-muted/25 bg-white/60 px-3 py-1 text-xs font-extrabold text-cinch-forest dark:bg-cinch-panel/80 dark:text-cinch-mint;
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes draw-line {
+  from {
+    stroke-dashoffset: 700;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+.fade-up {
+  animation: fade-up 0.6s ease both;
+}
+
+.draw-line {
+  stroke-dasharray: 700;
+  stroke-dashoffset: 700;
+  animation: draw-line 1.3s ease forwards;
+}
