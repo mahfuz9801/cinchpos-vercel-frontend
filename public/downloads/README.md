@@ -2,8 +2,13 @@
 
 The real production downloads are hosted on Vercel Blob:
 
-- Windows: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=2026-06-11-50feab30`
-- macOS: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg`
+- Windows: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.2`
+- macOS: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.2`
+
+The desktop updater feed is hosted on Vercel Blob:
+
+- Windows: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/updates/latest.yml`
+- macOS: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/updates/latest-mac.yml`
 
 The local files in this folder are kept for development and backup. They are
 ignored during direct Vercel CLI deploys by `.vercelignore` because each file is

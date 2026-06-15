@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 
 const hostedDownloadLinks = {
   windows:
-    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=2026-06-11-50feab30",
-  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg"
+    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.2",
+  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.2"
 };
 
 const downloadLinks = {
@@ -18,6 +18,22 @@ const tabs = [
   { id: "about", label: "About" }
 ];
 
+const latestBuild = {
+  label: "June 15, 2026 build",
+  title: "CinchPOS 1.0.2 desktop release",
+  summary:
+    "This web deploy points customers to CinchPOS 1.0.2 with the latest billing-screen alignment, receipt, inventory, invoice, and optional desktop update improvements.",
+  highlights: [
+    "Shop installations are prompted when a newer desktop update is available",
+    "CinchPOS bill item rows use the corrected MRP, discount, SP, GST, and amount layout",
+    "Inventory and dashboard layouts stay usable on smaller store computers",
+    "Invoice status can be updated from the invoice list",
+    "Owner-restricted invoice delete support is included",
+    "Sales trend hover details and stock-value revenue are included",
+    "Updated Mac DMG/PKG and Windows installer/portable packages"
+  ]
+};
+
 const baseModules = [
   "Dashboard",
   "CinchPOS Billing",
@@ -30,14 +46,16 @@ const baseModules = [
   "Manage Employee",
   "Your Bank",
   "Store Documents",
-  "Data Transfer"
+  "Retrieve Data",
+  "Sell Online",
+  "Print Settings"
 ];
 
 const featureCards = [
   {
     title: "Fast POS billing",
-    body: "Customer phone lookup, payment mode selection, item search, GST-ready bill preview, and save or print actions.",
-    tags: ["Free core", "Counter-ready", "GST"]
+    body: "Customer phone lookup, optional walk-in billing, item search, GST-ready bill preview, compact thermal printing, and save or print actions.",
+    tags: ["Free core", "Counter-ready", "Print-ready"]
   },
   {
     title: "Inventory + purchase flow",
@@ -46,13 +64,13 @@ const featureCards = [
   },
   {
     title: "Business records",
-    body: "Keep customers, invoices, expenses, bank details, store documents, and migration tools inside the same workspace.",
-    tags: ["Invoices", "Bank", "Data transfer"]
+    body: "Keep customers, invoices, expenses, bank details, store documents, retrieve-data tools, and sell-online planning inside the same workspace.",
+    tags: ["Invoices", "Bank", "Retrieve data"]
   },
   {
-    title: "Optional growth tools",
-    body: "Add cloud backup, advanced analytics, employee permissions, WhatsApp reminders, multi-outlet reports, and onboarding only when useful.",
-    tags: ["Paid add-ons", "Scalable", "Advisor-led"]
+    title: "Print and invoice control",
+    body: "Use thermal bills for counters, standard bill previews for invoice-style work, and calibration settings before sending anything to the printer.",
+    tags: ["Thermal", "Standard bill", "Calibration"]
   }
 ];
 
@@ -328,6 +346,7 @@ function Hero({ recommendedDownload, setActiveTab, openAdvisor }) {
         <div className="mb-6 flex flex-wrap gap-2">
           <span className="chip">Free desktop billing app</span>
           <span className="chip">Optional paid add-ons</span>
+          <span className="chip">Print-ready build</span>
           <span className="chip">Vercel-ready frontend</span>
         </div>
         <h1 className="max-w-4xl font-display text-5xl font-bold leading-[0.92] tracking-[-0.08em] sm:text-7xl lg:text-8xl">
@@ -348,10 +367,17 @@ function Hero({ recommendedDownload, setActiveTab, openAdvisor }) {
             Ask smart advisor
           </button>
         </div>
+        <div className="mt-6 rounded-[1.5rem] border border-cinch-mint/30 bg-cinch-mint/15 p-5">
+          <span className="chip">{latestBuild.label}</span>
+          <h2 className="mt-3 font-display text-2xl font-bold tracking-[-0.05em]">{latestBuild.title}</h2>
+          <p className="mt-2 text-sm font-bold leading-6 text-cinch-muted dark:text-cinch-slate">
+            {latestBuild.summary}
+          </p>
+        </div>
       </div>
 
-      <div className="glass-card relative overflow-hidden rounded-[2rem] p-5 sm:p-6">
-        <div className="rounded-[1.5rem] border border-cinch-muted/20 bg-cinch-black p-4 text-cinch-soft">
+      <div className="glass-card relative overflow-x-auto overflow-y-hidden rounded-[2rem] p-5 sm:p-6">
+        <div className="min-w-[620px] rounded-[1.5rem] border border-cinch-muted/20 bg-cinch-black p-4 text-cinch-soft sm:min-w-0">
           <div className="mb-4 flex flex-wrap items-center gap-2">
             <div className="flex items-center gap-2">
               <span className="h-3 w-3 rounded-full bg-cinch-danger" />
@@ -423,7 +449,31 @@ function DownloadTab({ recommendedDownload }) {
   ];
 
   return (
-    <div className="grid gap-4 md:grid-cols-2">
+    <div className="grid gap-4">
+      <section className="glass-card rounded-[1.75rem] p-5 sm:p-6">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <span className="chip">{latestBuild.label}</span>
+            <h2 className="mt-4 font-display text-3xl font-bold tracking-[-0.06em]">
+              Download the current desktop build.
+            </h2>
+            <p className="mt-2 max-w-3xl text-sm font-semibold leading-7 text-cinch-muted dark:text-cinch-slate">
+              {latestBuild.summary}
+            </p>
+          </div>
+          <a className="secondary-button" href="/deployment.json">
+            Deployment marker
+          </a>
+        </div>
+        <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {latestBuild.highlights.map((item) => (
+            <div key={item} className="rounded-[1.25rem] border border-cinch-muted/20 bg-white/50 p-4 text-sm font-bold leading-6 dark:bg-cinch-panel">
+              {item}
+            </div>
+          ))}
+        </div>
+      </section>
+      <div className="grid gap-4 md:grid-cols-2">
         {downloads.map((item) => (
           <article
             key={item.os}
@@ -446,6 +496,7 @@ function DownloadTab({ recommendedDownload }) {
             </a>
           </article>
         ))}
+      </div>
     </div>
   );
 }
@@ -554,6 +605,20 @@ function FeaturesTab() {
             <span key={module} className="rounded-full border border-cinch-muted/25 bg-cinch-black px-4 py-2 text-sm font-black text-cinch-mint dark:bg-cinch-panel">
               {module}
             </span>
+          ))}
+        </div>
+      </section>
+
+      <section className="glass-card rounded-[2rem] p-6 sm:p-8">
+        <span className="chip">{latestBuild.title}</span>
+        <h2 className="mt-4 max-w-4xl font-display text-4xl font-bold tracking-[-0.07em] sm:text-5xl">
+          The website now matches the desktop print workflow.
+        </h2>
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          {latestBuild.highlights.map((item) => (
+            <article key={item} className="rounded-[1.5rem] border border-cinch-muted/20 bg-white/50 p-5 dark:bg-cinch-charcoal/75">
+              <strong className="block text-sm">{item}</strong>
+            </article>
           ))}
         </div>
       </section>
