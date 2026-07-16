@@ -29,7 +29,7 @@ function parseVersion(argv) {
   if (flagIndex >= 0 && argv[flagIndex + 1]) {
     return argv[flagIndex + 1];
   }
-  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.2";
+  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.3";
 }
 
 function requiredFile(distDir, fileName) {
@@ -178,8 +178,9 @@ async function main() {
     releaseDate,
     notes: [
       "Shop installations now get an optional update prompt when a newer desktop build is available.",
-      "Billing, invoice, inventory, and dashboard layout fixes from the latest desktop build are included.",
-      "Receipt and print-preview improvements are included in this release."
+      "Sales Report now includes download support and corrected daily, weekly, monthly, and custom trend calculations.",
+      "Account privacy, login lockout, and API no-store protections are included.",
+      "Long thermal bills now print at readable receipt width instead of shrinking."
     ],
     downloads: {
       windows: {

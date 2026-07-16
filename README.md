@@ -9,12 +9,13 @@ repo is pushed or redeployed.
 
 ## Current Deployment Marker
 
-- Build label: `release-1.0.2`
+- Build label: `release-1.0.3`
 - Public marker after deployment: `/deployment.json`
 - Visible website update: current desktop build panel in the Download tab
 - Desktop build messaging: shop update prompts, billing-screen alignment fixes,
-  inventory and dashboard layout fixes, invoice status/delete support, receipt
-  improvements, and Mac/Windows installers
+  inventory and dashboard layout fixes, invoice status/delete support, sales
+  report download, privacy hardening, long thermal bill printing fixes, and
+  Mac/Windows installers
 
 ## Run Locally
 
@@ -34,8 +35,8 @@ npm run build
 Production defaults use Vercel Blob because the installers are larger than the
 normal Vercel and GitHub file upload limits:
 
-- Windows: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.2`
-- macOS: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.2`
+- Windows: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.3`
+- macOS: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.3`
 
 ## Desktop Auto Updates
 

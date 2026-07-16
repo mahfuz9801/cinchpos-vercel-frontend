@@ -1,17 +1,17 @@
 {
   "app": "CinchPOS",
-  "deploymentVersion": "release-1.0.2",
-  "updatedAt": "2026-06-15T03:05:39.503Z",
+  "deploymentVersion": "release-1.0.3",
+  "updatedAt": "2026-07-16T16:39:04.594Z",
   "downloadLinks": {
     "windows": {
       "fileName": "CinchPOS-Setup.exe",
       "url": "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe",
-      "sourceFile": "CinchPOS Setup 1.0.2.exe"
+      "sourceFile": "CinchPOS Setup 1.0.3.exe"
     },
     "mac": {
       "fileName": "CinchPOS.dmg",
       "url": "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg",
-      "sourceFile": "CinchPOS-1.0.2-arm64.dmg"
+      "sourceFile": "CinchPOS-1.0.3-arm64.dmg"
     }
   },
   "updateFeed": {
@@ -20,7 +20,8 @@
   },
   "notes": [
     "Shop installations now get an optional update prompt when a newer desktop build is available.",
-    "Billing, invoice, inventory, and dashboard layout fixes from the latest desktop build are included.",
-    "Receipt and print-preview improvements are included in this release."
+    "Sales Report now includes download support and corrected daily, weekly, monthly, and custom trend calculations.",
+    "Account privacy, login lockout, and API no-store protections are included.",
+    "Long thermal bills now print at readable receipt width instead of shrinking."
   ]
 }

@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 
 const hostedDownloadLinks = {
   windows:
-    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.2",
-  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.2"
+    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.3",
+  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.3"
 };
 
 const downloadLinks = {
@@ -19,12 +19,15 @@ const tabs = [
 ];
 
 const latestBuild = {
-  label: "June 15, 2026 build",
-  title: "CinchPOS 1.0.2 desktop release",
+  label: "July 16, 2026 build",
+  title: "CinchPOS 1.0.3 desktop release",
   summary:
-    "This web deploy points customers to CinchPOS 1.0.2 with the latest billing-screen alignment, receipt, inventory, invoice, and optional desktop update improvements.",
+    "This web deploy points customers to CinchPOS 1.0.3 with the latest sales report download, trend graph, account privacy, receipt printing, billing, inventory, and invoice improvements.",
   highlights: [
     "Shop installations are prompted when a newer desktop update is available",
+    "Sales Report includes a downloadable report and corrected daily, weekly, monthly, and custom sales data",
+    "Account sessions and login attempts are protected with stronger local privacy controls",
+    "Long thermal bills print at readable receipt width instead of shrinking",
     "CinchPOS bill item rows use the corrected MRP, discount, SP, GST, and amount layout",
     "Inventory and dashboard layouts stay usable on smaller store computers",
     "Invoice status can be updated from the invoice list",
