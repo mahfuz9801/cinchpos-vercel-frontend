@@ -11,6 +11,8 @@ const downloadLinks = {
   mac: import.meta.env.VITE_MAC_DOWNLOAD_URL || hostedDownloadLinks.mac
 };
 
+const publicApiBaseUrl = (import.meta.env.VITE_CINCHPOS_PUBLIC_API_URL || "http://localhost:5001").replace(/\/+$/, "");
+
 const tabs = [
   { id: "download", label: "Download" },
   { id: "pricing", label: "Pricing" },
@@ -153,10 +155,174 @@ function detectPlatform() {
 }
 
 function currency(value) {
-  return `Rs ${value.toLocaleString("en-IN")}`;
+  const amount = Number(value);
+  const safeAmount = Number.isFinite(amount) ? amount : 0;
+  return `Rs ${safeAmount.toLocaleString("en-IN", {
+    minimumFractionDigits: safeAmount % 1 ? 2 : 0,
+    maximumFractionDigits: 2
+  })}`;
 }
 
 function App() {
+  const onlineStoreSlug = parseOnlineStoreSlug();
+  if (onlineStoreSlug) {
+    return <OnlineStorePage storeSlug={onlineStoreSlug} />;
+  }
+
+  return <MarketingApp />;
+}
+
+function parseOnlineStoreSlug() {
+  const path = window.location.pathname.replace(/\/+$/, "");
+  const match = path.match(/^\/([^/]+)\/online(?:-|%20| )store$/i);
+  return match ? decodeURIComponent(match[1]) : "";
+}
+
+function publicApiPath(path) {
+  return `${publicApiBaseUrl}${path}`;
+}
+
+async function fetchPublicJSON(path, options = {}) {
+  const response = await fetch(publicApiPath(path), {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(options.headers || {})
+    },
+    cache: "no-store"
+  });
+  const text = await response.text();
+  const payload = text ? JSON.parse(text) : {};
+  if (!response.ok) {
+    throw new Error(payload.error || "Something went wrong. Please try again.");
+  }
+  return payload;
+}
+
+function escapeInvoiceHTML(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function buildOnlineInvoiceHTML(store, order) {
+  const items = Array.isArray(order?.items) ? order.items : [];
+  const rows = items
+    .map((item, index) => `
+      <tr>
+        <td>${index + 1}</td>
+        <td>
+          <strong>${escapeInvoiceHTML(item.name)}</strong>
+          <small>${escapeInvoiceHTML(item.barcode || "")}</small>
+        </td>
+        <td>${escapeInvoiceHTML(item.quantity)} ${escapeInvoiceHTML(item.unit || "Pcs")}</td>
+        <td>${currency(item.mrp)}</td>
+        <td>${currency(item.price)}</td>
+        <td>${currency(item.taxable)}</td>
+        <td>${currency(item.gst_amount)}</td>
+        <td>${currency(item.total)}</td>
+      </tr>
+    `)
+    .join("");
+
+  return `<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>${escapeInvoiceHTML(order?.invoice_number || "CinchPOS Invoice")}</title>
+  <style>
+    body { color: #0b1210; font-family: Arial, sans-serif; margin: 32px; }
+    .invoice { border: 1px solid #cbd8d0; margin: 0 auto; max-width: 900px; padding: 28px; }
+    .header { align-items: flex-start; border-bottom: 1px solid #cbd8d0; display: flex; gap: 16px; justify-content: space-between; padding-bottom: 18px; }
+    .brand { align-items: center; display: flex; gap: 14px; }
+    .brand img { border-radius: 10px; height: 54px; object-fit: cover; width: 54px; }
+    h1, h2, p { margin: 0; }
+    h1 { font-size: 24px; }
+    .muted { color: #5f7368; font-size: 13px; line-height: 1.5; }
+    .grid { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; margin: 24px 0; }
+    .box { border: 1px solid #d7e3db; border-radius: 10px; padding: 14px; }
+    table { border-collapse: collapse; margin-top: 18px; width: 100%; }
+    th, td { border-bottom: 1px solid #d7e3db; font-size: 13px; padding: 10px 8px; text-align: left; vertical-align: top; }
+    th { background: #e6f4ea; }
+    small { color: #5f7368; display: block; margin-top: 4px; }
+    .totals { margin-left: auto; margin-top: 22px; max-width: 320px; }
+    .totals div { display: flex; justify-content: space-between; padding: 7px 0; }
+    .total { border-top: 2px solid #0f3d2e; font-size: 18px; font-weight: 800; }
+  </style>
+</head>
+<body>
+  <main class="invoice">
+    <section class="header">
+      <div class="brand">
+        <img src="${escapeInvoiceHTML(store?.logo_url || "/assets/logo-cinchpos-mark.png")}" alt="" />
+        <div>
+          <h1>${escapeInvoiceHTML(store?.store_name || "CinchPOS Store")}</h1>
+          <p class="muted">${escapeInvoiceHTML(store?.address || "")}</p>
+          <p class="muted">${escapeInvoiceHTML(store?.contact_phone || "")} ${escapeInvoiceHTML(store?.contact_email || "")}</p>
+        </div>
+      </div>
+      <div>
+        <h2>Invoice</h2>
+        <p class="muted">${escapeInvoiceHTML(order?.invoice_number || "")}</p>
+      </div>
+    </section>
+    <section class="grid">
+      <div class="box">
+        <strong>Bill To</strong>
+        <p>${escapeInvoiceHTML(order?.customer_name || "")}</p>
+        <p class="muted">${escapeInvoiceHTML(order?.customer_phone || "")}</p>
+        <p class="muted">${escapeInvoiceHTML(order?.customer_email || "")}</p>
+        <p class="muted">${escapeInvoiceHTML(order?.customer_address || "")}</p>
+      </div>
+      <div class="box">
+        <strong>Order Details</strong>
+        <p class="muted">Status: ${escapeInvoiceHTML(order?.status || "Placed")}</p>
+        <p class="muted">Payment: ${escapeInvoiceHTML(order?.payment_status || "Unpaid")}</p>
+        <p class="muted">Date: ${escapeInvoiceHTML(order?.created_at || "")}</p>
+      </div>
+    </section>
+    <table>
+      <thead>
+        <tr>
+          <th>Sr.</th>
+          <th>Item(s)</th>
+          <th>Qty</th>
+          <th>MRP</th>
+          <th>SP</th>
+          <th>Rate</th>
+          <th>GST</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <section class="totals">
+      <div><span>Total Rate</span><strong>${currency(order?.subtotal)}</strong></div>
+      <div><span>Total GST</span><strong>${currency(order?.gst_total)}</strong></div>
+      <div><span>Total Discount</span><strong>${currency(order?.discount_total)}</strong></div>
+      <div class="total"><span>Total Amount</span><strong>${currency(order?.total)}</strong></div>
+    </section>
+  </main>
+</body>
+</html>`;
+}
+
+function downloadOnlineInvoice(store, order) {
+  const invoiceHTML = buildOnlineInvoiceHTML(store, order);
+  const blob = new Blob([invoiceHTML], { type: "text/html;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `${order.invoice_number || "cinchpos-online-invoice"}.html`;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function MarketingApp() {
   const [activeTab, setActiveTab] = useState("download");
   const [platform, setPlatform] = useState("windows");
   const [theme, setTheme] = useState(() => localStorage.getItem("cinchpos-theme") || "system");
@@ -702,6 +868,353 @@ function AboutTab({ openAdvisor }) {
         </div>
       </aside>
     </div>
+  );
+}
+
+function OnlineStorePage({ storeSlug }) {
+  const [store, setStore] = useState(null);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
+  const [cart, setCart] = useState({});
+  const [customer, setCustomer] = useState({ name: "", phone: "", email: "", address: "" });
+  const [checkoutError, setCheckoutError] = useState("");
+  const [checkoutBusy, setCheckoutBusy] = useState(false);
+  const [createdOrder, setCreatedOrder] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    setError("");
+    fetchPublicJSON(`/api/public/stores/${encodeURIComponent(storeSlug)}`)
+      .then((payload) => {
+        if (cancelled) return;
+        setStore(payload.store);
+        setProducts(Array.isArray(payload.products) ? payload.products : []);
+      })
+      .catch((requestError) => {
+        if (cancelled) return;
+        setError(requestError.message || "This online store could not be loaded.");
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [storeSlug]);
+
+  const filteredProducts = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    if (!query) return products;
+    return products.filter((product) => {
+      const haystack = [
+        product.name,
+        product.barcode,
+        product.category,
+        ...(Array.isArray(product.barcodes) ? product.barcodes : [])
+      ]
+        .join(" ")
+        .toLowerCase();
+      return haystack.includes(query);
+    });
+  }, [products, search]);
+
+  const cartLines = useMemo(() => (
+    Object.entries(cart)
+      .map(([productKey, quantity]) => {
+        const product = products.find((item) => item.product_key === productKey || item.id === productKey);
+        if (!product) return null;
+        return {
+          product,
+          productKey,
+          quantity,
+          lineTotal: Number(product.online_price || 0) * quantity
+        };
+      })
+      .filter(Boolean)
+  ), [cart, products]);
+
+  const cartTotal = cartLines.reduce((sum, line) => sum + line.lineTotal, 0);
+  const cartQuantity = cartLines.reduce((sum, line) => sum + line.quantity, 0);
+
+  function productKey(product) {
+    return product.product_key || product.id;
+  }
+
+  function setCartQuantity(product, quantity) {
+    const key = productKey(product);
+    const maxStock = Math.max(0, Math.floor(Number(product.stock || 0)));
+    const nextQuantity = Math.max(0, Math.min(maxStock, Number(quantity) || 0));
+    setCart((current) => {
+      const nextCart = { ...current };
+      if (!nextQuantity) {
+        delete nextCart[key];
+      } else {
+        nextCart[key] = nextQuantity;
+      }
+      return nextCart;
+    });
+  }
+
+  function addToCart(product) {
+    const key = productKey(product);
+    const currentQuantity = cart[key] || 0;
+    setCartQuantity(product, currentQuantity + 1);
+  }
+
+  async function submitCheckout(event) {
+    event.preventDefault();
+    setCheckoutError("");
+    setCreatedOrder(null);
+    if (!customer.name.trim()) {
+      setCheckoutError("Please enter the customer name.");
+      return;
+    }
+    if (!/^\d{10}$/.test(customer.phone.replace(/\D/g, ""))) {
+      setCheckoutError("Please enter a valid 10 digit phone number.");
+      return;
+    }
+    if (!cartLines.length) {
+      setCheckoutError("Please add at least one product to the cart.");
+      return;
+    }
+
+    setCheckoutBusy(true);
+    try {
+      const payload = await fetchPublicJSON(`/api/public/stores/${encodeURIComponent(storeSlug)}/checkout`, {
+        method: "POST",
+        body: JSON.stringify({
+          customer,
+          items: cartLines.map((line) => ({
+            product_key: line.productKey,
+            quantity: line.quantity
+          }))
+        })
+      });
+      setCreatedOrder(payload.order);
+      setStore(payload.store || store);
+      setCart({});
+      setProducts((current) => current.map((product) => {
+        const line = cartLines.find((cartLine) => cartLine.productKey === productKey(product));
+        if (!line) return product;
+        return {
+          ...product,
+          stock: Math.max(0, Number(product.stock || 0) - line.quantity)
+        };
+      }));
+    } catch (requestError) {
+      setCheckoutError(requestError.message || "Checkout could not be completed.");
+    } finally {
+      setCheckoutBusy(false);
+    }
+  }
+
+  async function downloadCreatedInvoice() {
+    if (!createdOrder) return;
+    try {
+      const payload = await fetchPublicJSON(`/api/public/orders/${encodeURIComponent(createdOrder.id)}/invoice`);
+      downloadOnlineInvoice(payload.store || store, payload.order || createdOrder);
+    } catch {
+      downloadOnlineInvoice(store, createdOrder);
+    }
+  }
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-cinch-soft px-4 py-10 text-cinch-black dark:bg-cinch-black dark:text-cinch-soft">
+        <section className="mx-auto max-w-5xl rounded-[2rem] border border-cinch-muted/20 bg-white/80 p-8 shadow-soft dark:bg-cinch-charcoal">
+          <span className="chip">CinchPOS Online Store</span>
+          <h1 className="mt-4 font-display text-4xl font-bold tracking-[-0.06em]">Loading store...</h1>
+          <p className="mt-3 text-sm font-bold text-cinch-muted dark:text-cinch-slate">Fetching live products and prices.</p>
+        </section>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="min-h-screen bg-cinch-soft px-4 py-10 text-cinch-black dark:bg-cinch-black dark:text-cinch-soft">
+        <section className="mx-auto max-w-5xl rounded-[2rem] border border-cinch-muted/20 bg-white/80 p-8 shadow-soft dark:bg-cinch-charcoal">
+          <span className="chip">Store unavailable</span>
+          <h1 className="mt-4 font-display text-4xl font-bold tracking-[-0.06em]">This online store could not be opened.</h1>
+          <p className="mt-3 text-sm font-bold text-cinch-muted dark:text-cinch-slate">{error}</p>
+        </section>
+      </main>
+    );
+  }
+
+  return (
+    <main className="min-h-screen bg-cinch-soft px-4 py-6 text-cinch-black dark:bg-cinch-black dark:text-cinch-soft sm:py-8">
+      <section className="mx-auto max-w-7xl">
+        <header className="glass-card flex flex-wrap items-center justify-between gap-4 rounded-[1.5rem] p-4 sm:p-5">
+          <div className="flex min-w-0 items-center gap-3">
+            <img
+              src={store?.logo_url || "/assets/logo-cinchpos-mark.png"}
+              alt=""
+              className="h-14 w-14 rounded-2xl object-cover ring-1 ring-cinch-muted/30"
+            />
+            <div className="min-w-0">
+              <span className="chip">CinchPOS Online Store</span>
+              <h1 className="mt-2 truncate font-display text-2xl font-bold tracking-[-0.05em] sm:text-4xl">
+                {store?.store_name || "Online Store"}
+              </h1>
+              <p className="mt-1 max-w-2xl text-xs font-bold text-cinch-muted dark:text-cinch-slate sm:text-sm">
+                {store?.address || "Products available for online checkout."}
+              </p>
+            </div>
+          </div>
+          <div className="rounded-2xl border border-cinch-muted/20 bg-white/70 px-4 py-3 text-sm font-black dark:bg-cinch-panel">
+            {cartQuantity} item{cartQuantity === 1 ? "" : "s"} | {currency(cartTotal)}
+          </div>
+        </header>
+
+        <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_380px]">
+          <section className="glass-card rounded-[1.5rem] p-4 sm:p-5">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <h2 className="font-display text-2xl font-bold tracking-[-0.05em]">Products</h2>
+                <p className="mt-1 text-sm font-bold text-cinch-muted dark:text-cinch-slate">
+                  {filteredProducts.length} of {products.length} product{products.length === 1 ? "" : "s"} available.
+                </p>
+              </div>
+              <label className="grid min-w-[240px] gap-2 text-sm font-black sm:min-w-[320px]">
+                Search
+                <input
+                  className="rounded-2xl border border-cinch-muted/25 bg-white/80 px-4 py-3 text-sm font-bold outline-none focus:border-cinch-emerald dark:bg-cinch-panel"
+                  placeholder="Search product or barcode"
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
+                />
+              </label>
+            </div>
+
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              {filteredProducts.map((product) => {
+                const key = productKey(product);
+                const quantity = cart[key] || 0;
+                const stock = Math.floor(Number(product.stock || 0));
+                return (
+                  <article key={key} className="rounded-[1.25rem] border border-cinch-muted/20 bg-white/65 p-4 dark:bg-cinch-panel">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <h3 className="truncate font-display text-lg font-bold tracking-[-0.04em]">{product.name}</h3>
+                        <p className="mt-1 text-xs font-bold text-cinch-muted dark:text-cinch-slate">
+                          Barcode {product.barcode || "Not added"}
+                        </p>
+                      </div>
+                      <span className="rounded-2xl bg-cinch-mint px-3 py-2 text-xs font-black text-cinch-black">
+                        {stock} left
+                      </span>
+                    </div>
+                    <div className="mt-4 flex items-end justify-between gap-3">
+                      <div>
+                        <span className="text-xs font-black uppercase text-cinch-muted dark:text-cinch-slate">Online Price</span>
+                        <strong className="block font-display text-2xl tracking-[-0.05em]">{currency(product.online_price)}</strong>
+                        {Number(product.mrp || 0) > Number(product.online_price || 0) ? (
+                          <small className="text-xs font-bold text-cinch-muted dark:text-cinch-slate">
+                            MRP {currency(product.mrp)}
+                          </small>
+                        ) : null}
+                      </div>
+                      {quantity ? (
+                        <div className="flex items-center rounded-2xl border border-cinch-muted/25 bg-white/70 dark:bg-cinch-charcoal">
+                          <button className="px-3 py-2 font-black" onClick={() => setCartQuantity(product, quantity - 1)}>-</button>
+                          <span className="min-w-8 text-center text-sm font-black">{quantity}</span>
+                          <button className="px-3 py-2 font-black" onClick={() => setCartQuantity(product, quantity + 1)}>+</button>
+                        </div>
+                      ) : (
+                        <button className="primary-button px-4 py-2" disabled={!stock} onClick={() => addToCart(product)}>
+                          {stock ? "Add" : "Out"}
+                        </button>
+                      )}
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+
+            {!filteredProducts.length ? (
+              <div className="mt-5 rounded-[1.25rem] border border-cinch-muted/20 bg-white/70 p-5 text-sm font-bold text-cinch-muted dark:bg-cinch-panel dark:text-cinch-slate">
+                No products matched your search.
+              </div>
+            ) : null}
+          </section>
+
+          <aside className="glass-card h-fit rounded-[1.5rem] p-4 sm:p-5">
+            <h2 className="font-display text-2xl font-bold tracking-[-0.05em]">Checkout</h2>
+            <div className="mt-4 grid gap-3">
+              {cartLines.length ? cartLines.map((line) => (
+                <div key={line.productKey} className="rounded-[1rem] border border-cinch-muted/20 bg-white/60 p-3 text-sm font-bold dark:bg-cinch-panel">
+                  <div className="flex justify-between gap-3">
+                    <span>{line.product.name}</span>
+                    <strong>{currency(line.lineTotal)}</strong>
+                  </div>
+                  <small className="mt-1 block text-cinch-muted dark:text-cinch-slate">
+                    {line.quantity} x {currency(line.product.online_price)}
+                  </small>
+                </div>
+              )) : (
+                <p className="rounded-[1rem] border border-cinch-muted/20 bg-white/60 p-4 text-sm font-bold text-cinch-muted dark:bg-cinch-panel dark:text-cinch-slate">
+                  Add products to start checkout.
+                </p>
+              )}
+            </div>
+
+            <div className="my-5 flex items-center justify-between border-y border-cinch-muted/20 py-4">
+              <span className="text-sm font-black">Total</span>
+              <strong className="font-display text-3xl tracking-[-0.06em]">{currency(cartTotal)}</strong>
+            </div>
+
+            <form className="grid gap-3" onSubmit={submitCheckout}>
+              <input
+                className="rounded-2xl border border-cinch-muted/25 bg-white/80 px-4 py-3 text-sm font-bold outline-none focus:border-cinch-emerald dark:bg-cinch-panel"
+                placeholder="Customer name"
+                value={customer.name}
+                onChange={(event) => setCustomer((current) => ({ ...current, name: event.target.value }))}
+                required
+              />
+              <input
+                className="rounded-2xl border border-cinch-muted/25 bg-white/80 px-4 py-3 text-sm font-bold outline-none focus:border-cinch-emerald dark:bg-cinch-panel"
+                inputMode="numeric"
+                placeholder="10 digit phone"
+                value={customer.phone}
+                onChange={(event) => setCustomer((current) => ({ ...current, phone: event.target.value }))}
+                required
+              />
+              <input
+                className="rounded-2xl border border-cinch-muted/25 bg-white/80 px-4 py-3 text-sm font-bold outline-none focus:border-cinch-emerald dark:bg-cinch-panel"
+                type="email"
+                placeholder="Email optional"
+                value={customer.email}
+                onChange={(event) => setCustomer((current) => ({ ...current, email: event.target.value }))}
+              />
+              <textarea
+                className="min-h-24 rounded-2xl border border-cinch-muted/25 bg-white/80 px-4 py-3 text-sm font-bold outline-none focus:border-cinch-emerald dark:bg-cinch-panel"
+                placeholder="Address optional"
+                value={customer.address}
+                onChange={(event) => setCustomer((current) => ({ ...current, address: event.target.value }))}
+              />
+              {checkoutError ? <p className="rounded-2xl bg-cinch-danger/10 px-4 py-3 text-sm font-black text-cinch-danger">{checkoutError}</p> : null}
+              <button className="primary-button w-full" disabled={checkoutBusy || !cartLines.length}>
+                {checkoutBusy ? "Placing order..." : "Checkout"}
+              </button>
+            </form>
+
+            {createdOrder ? (
+              <div className="mt-5 rounded-[1.25rem] border border-cinch-emerald/40 bg-cinch-mint/30 p-4">
+                <strong className="block text-sm">Order placed: {createdOrder.invoice_number}</strong>
+                <p className="mt-1 text-xs font-bold text-cinch-muted">Download the invoice for this checkout.</p>
+                <button className="secondary-button mt-3 w-full" onClick={downloadCreatedInvoice}>
+                  Download Invoice
+                </button>
+              </div>
+            ) : null}
+          </aside>
+        </div>
+      </section>
+    </main>
   );
 }
 
