@@ -183,16 +183,26 @@ function publicApiPath(path) {
 }
 
 async function fetchPublicJSON(path, options = {}) {
-  const response = await fetch(publicApiPath(path), {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...(options.headers || {})
-    },
-    cache: "no-store"
-  });
+  let response;
+  try {
+    response = await fetch(publicApiPath(path), {
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        ...(options.headers || {})
+      },
+      cache: "no-store"
+    });
+  } catch (error) {
+    throw new Error("Online store service is not connected yet. Please connect the live CinchPOS backend API and try again.");
+  }
   const text = await response.text();
-  const payload = text ? JSON.parse(text) : {};
+  let payload = {};
+  try {
+    payload = text ? JSON.parse(text) : {};
+  } catch (error) {
+    throw new Error("Online store service returned the website page instead of store data. Please connect the live CinchPOS backend API.");
+  }
   if (!response.ok) {
     throw new Error(payload.error || "Something went wrong. Please try again.");
   }
