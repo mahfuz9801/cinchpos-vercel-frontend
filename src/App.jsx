@@ -178,35 +178,40 @@ function parseOnlineStoreSlug() {
   return match ? decodeURIComponent(match[1]) : "";
 }
 
-function publicApiPath(path) {
-  return `${publicApiBaseUrl}${path}`;
+function publicApiCandidates(path) {
+  const sameOrigin = window.location.origin.replace(/\/+$/, "");
+  return [...new Set([publicApiBaseUrl, sameOrigin].filter(Boolean))]
+    .map((baseUrl) => `${baseUrl}${path}`);
 }
 
 async function fetchPublicJSON(path, options = {}) {
-  let response;
-  try {
-    response = await fetch(publicApiPath(path), {
-      ...options,
-      headers: {
-        "Content-Type": "application/json",
-        ...(options.headers || {})
-      },
-      cache: "no-store"
-    });
-  } catch (error) {
-    throw new Error("Online store service is not connected yet. Please connect the live CinchPOS backend API and try again.");
+  let lastError = null;
+  for (const requestUrl of publicApiCandidates(path)) {
+    try {
+      const response = await fetch(requestUrl, {
+        ...options,
+        headers: {
+          "Content-Type": "application/json",
+          ...(options.headers || {})
+        },
+        cache: "no-store"
+      });
+      const text = await response.text();
+      let payload = {};
+      try {
+        payload = text ? JSON.parse(text) : {};
+      } catch (error) {
+        throw new Error("Online store service returned the website page instead of store data. Please connect the live CinchPOS backend API.");
+      }
+      if (!response.ok) {
+        throw new Error(payload.error || "Something went wrong. Please try again.");
+      }
+      return payload;
+    } catch (error) {
+      lastError = error;
+    }
   }
-  const text = await response.text();
-  let payload = {};
-  try {
-    payload = text ? JSON.parse(text) : {};
-  } catch (error) {
-    throw new Error("Online store service returned the website page instead of store data. Please connect the live CinchPOS backend API.");
-  }
-  if (!response.ok) {
-    throw new Error(payload.error || "Something went wrong. Please try again.");
-  }
-  return payload;
+  throw lastError || new Error("Online store service is not connected yet. Please try again.");
 }
 
 function escapeInvoiceHTML(value) {
