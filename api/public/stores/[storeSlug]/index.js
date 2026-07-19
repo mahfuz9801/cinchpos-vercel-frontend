@@ -4,7 +4,7 @@ import {
   readBlobJSON,
   sendJSON,
   storeBlobPath
-} from "../../_lib/online-store.mjs";
+} from "../../../_lib/online-store.mjs";
 
 export default async function handler(request, response) {
   if (request.method !== "GET") {
