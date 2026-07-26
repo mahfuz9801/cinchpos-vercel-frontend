@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 
 const hostedDownloadLinks = {
   windows:
-    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.3",
-  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.3"
+    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.4",
+  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.4"
 };
 
 const downloadLinks = {
@@ -21,17 +21,19 @@ const tabs = [
 ];
 
 const latestBuild = {
-  label: "July 16, 2026 build",
-  title: "CinchPOS 1.0.3 desktop release",
+  label: "July 26, 2026 build",
+  title: "CinchPOS 1.0.4 desktop release",
   summary:
-    "This web deploy points customers to CinchPOS 1.0.3 with the latest sales report download, trend graph, account privacy, receipt printing, billing, inventory, and invoice improvements.",
+    "This web deploy points customers to CinchPOS 1.0.4 with persistent login, a simpler account window, reliable online store publishing, and the latest billing, inventory, invoice, and print improvements.",
   highlights: [
-    "Shop installations are prompted when a newer desktop update is available",
-    "Sales Report includes a downloadable report and corrected daily, weekly, monthly, and custom sales data",
-    "Account sessions and login attempts are protected with stronger local privacy controls",
-    "Long thermal bills print at readable receipt width instead of shrinking",
+    "Shop installations are prompted when this newer desktop update is available",
+    "Login stays active between app restarts unless the user logs out",
+    "Create Account and Login are simplified to business name, email or phone, and password or OTP",
+    "Online store publishing now syncs reliably to cinchpos.in",
+    "The Sell Online URL only opens after the website catalog has synced successfully",
     "CinchPOS bill item rows use the corrected MRP, discount, SP, GST, and amount layout",
     "Inventory and dashboard layouts stay usable on smaller store computers",
+    "Sales Report includes a downloadable report and corrected daily, weekly, monthly, and custom sales data",
     "Invoice status can be updated from the invoice list",
     "Owner-restricted invoice delete support is included",
     "Sales trend hover details and stock-value revenue are included",

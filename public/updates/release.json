@@ -1,24 +1,24 @@
 {
   "app": "CinchPOS",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "channel": "stable",
-  "releaseDate": "2026-07-16T16:39:04.594Z",
+  "releaseDate": "2026-07-26T13:55:37.669Z",
   "notes": [
-    "Shop installations now get an optional update prompt when a newer desktop build is available.",
-    "Sales Report now includes download support and corrected daily, weekly, monthly, and custom trend calculations.",
-    "Account privacy, login lockout, and API no-store protections are included.",
-    "Long thermal bills now print at readable receipt width instead of shrinking."
+    "Login stays active between app restarts with persistent account sessions.",
+    "Create Account and Login are simplified to business name, email or phone, and password or OTP.",
+    "Online store publishing now syncs reliably to cinchpos.in with bundled certificate support.",
+    "The Sell Online URL only opens after the website catalog has synced successfully."
   ],
   "downloads": {
     "windows": {
       "fileName": "CinchPOS-Setup.exe",
       "url": "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe",
-      "sourceFile": "CinchPOS Setup 1.0.3.exe"
+      "sourceFile": "CinchPOS Setup 1.0.4.exe"
     },
     "mac": {
       "fileName": "CinchPOS.dmg",
       "url": "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg",
-      "sourceFile": "CinchPOS-1.0.3-arm64.dmg"
+      "sourceFile": "CinchPOS-1.0.4-arm64.dmg"
     }
   },
   "updateFeed": {

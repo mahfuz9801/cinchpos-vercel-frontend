@@ -29,7 +29,7 @@ function parseVersion(argv) {
   if (flagIndex >= 0 && argv[flagIndex + 1]) {
     return argv[flagIndex + 1];
   }
-  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.3";
+  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.4";
 }
 
 function requiredFile(distDir, fileName) {
@@ -177,10 +177,10 @@ async function main() {
     channel: "stable",
     releaseDate,
     notes: [
-      "Shop installations now get an optional update prompt when a newer desktop build is available.",
-      "Sales Report now includes download support and corrected daily, weekly, monthly, and custom trend calculations.",
-      "Account privacy, login lockout, and API no-store protections are included.",
-      "Long thermal bills now print at readable receipt width instead of shrinking."
+      "Login stays active between app restarts with persistent account sessions.",
+      "Create Account and Login are simplified to business name, email or phone, and password or OTP.",
+      "Online store publishing now syncs reliably to cinchpos.in with bundled certificate support.",
+      "The Sell Online URL only opens after the website catalog has synced successfully."
     ],
     downloads: {
       windows: {
