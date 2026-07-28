@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 
 const hostedDownloadLinks = {
   windows:
-    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.5",
-  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.5"
+    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.6",
+  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.6"
 };
 
 const downloadLinks = {
@@ -22,11 +22,12 @@ const tabs = [
 
 const latestBuild = {
   label: "July 28, 2026 build",
-  title: "CinchPOS 1.0.5 desktop release",
+  title: "CinchPOS 1.0.6 desktop release",
   summary:
-    "This web deploy points customers to CinchPOS 1.0.5 with safer invoice numbering, persistent login, role-based employee access, reliable online store publishing, and the latest billing, inventory, invoice, and print improvements.",
+    "This web deploy points customers to CinchPOS 1.0.6 with safe recovery for previous local bills after account creation, safer invoice numbering, persistent login, role-based employee access, reliable online store publishing, and the latest billing, inventory, invoice, and print improvements.",
   highlights: [
     "Shop installations are prompted when this newer desktop update is available",
+    "Owners can recover previous local customers, invoices, and payment records into the new account workspace after a database backup",
     "Save & Print now lets the billing API generate collision-safe invoice numbers",
     "Login stays active between app restarts unless the user logs out",
     "Employee roles include owner-controlled feature access for store managers, sales staff, and stock managers",
