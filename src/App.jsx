@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 
 const hostedDownloadLinks = {
   windows:
-    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.4",
-  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.4"
+    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.5",
+  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.5"
 };
 
 const downloadLinks = {
@@ -21,13 +21,15 @@ const tabs = [
 ];
 
 const latestBuild = {
-  label: "July 26, 2026 build",
-  title: "CinchPOS 1.0.4 desktop release",
+  label: "July 28, 2026 build",
+  title: "CinchPOS 1.0.5 desktop release",
   summary:
-    "This web deploy points customers to CinchPOS 1.0.4 with persistent login, a simpler account window, reliable online store publishing, and the latest billing, inventory, invoice, and print improvements.",
+    "This web deploy points customers to CinchPOS 1.0.5 with safer invoice numbering, persistent login, role-based employee access, reliable online store publishing, and the latest billing, inventory, invoice, and print improvements.",
   highlights: [
     "Shop installations are prompted when this newer desktop update is available",
+    "Save & Print now lets the billing API generate collision-safe invoice numbers",
     "Login stays active between app restarts unless the user logs out",
+    "Employee roles include owner-controlled feature access for store managers, sales staff, and stock managers",
     "Create Account and Login are simplified to business name, email or phone, and password or OTP",
     "Online store publishing now syncs reliably to cinchpos.in",
     "The Sell Online URL only opens after the website catalog has synced successfully",

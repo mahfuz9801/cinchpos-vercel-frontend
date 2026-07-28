@@ -1,17 +1,17 @@
 {
   "app": "CinchPOS",
-  "deploymentVersion": "release-1.0.4",
-  "updatedAt": "2026-07-26T13:55:37.669Z",
+  "deploymentVersion": "release-1.0.5",
+  "updatedAt": "2026-07-28T12:40:17.768Z",
   "downloadLinks": {
     "windows": {
       "fileName": "CinchPOS-Setup.exe",
       "url": "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe",
-      "sourceFile": "CinchPOS Setup 1.0.4.exe"
+      "sourceFile": "CinchPOS Setup 1.0.5.exe"
     },
     "mac": {
       "fileName": "CinchPOS.dmg",
       "url": "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg",
-      "sourceFile": "CinchPOS-1.0.4-arm64.dmg"
+      "sourceFile": "CinchPOS-1.0.5-arm64.dmg"
     }
   },
   "updateFeed": {
@@ -19,6 +19,8 @@
     "mac": "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/updates/latest-mac.yml"
   },
   "notes": [
+    "Save & Print now uses collision-safe backend invoice numbering.",
+    "Employee role access can be controlled from Manage Employee.",
     "Login stays active between app restarts with persistent account sessions.",
     "Create Account and Login are simplified to business name, email or phone, and password or OTP.",
     "Online store publishing now syncs reliably to cinchpos.in with bundled certificate support.",

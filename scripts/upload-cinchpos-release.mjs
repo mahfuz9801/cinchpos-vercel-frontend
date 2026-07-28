@@ -29,7 +29,7 @@ function parseVersion(argv) {
   if (flagIndex >= 0 && argv[flagIndex + 1]) {
     return argv[flagIndex + 1];
   }
-  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.4";
+  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.5";
 }
 
 function requiredFile(distDir, fileName) {
@@ -177,6 +177,8 @@ async function main() {
     channel: "stable",
     releaseDate,
     notes: [
+      "Save & Print now uses collision-safe backend invoice numbering.",
+      "Employee role access can be controlled from Manage Employee.",
       "Login stays active between app restarts with persistent account sessions.",
       "Create Account and Login are simplified to business name, email or phone, and password or OTP.",
       "Online store publishing now syncs reliably to cinchpos.in with bundled certificate support.",
