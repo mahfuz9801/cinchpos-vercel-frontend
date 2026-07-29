@@ -2,7 +2,7 @@
   "app": "CinchPOS",
   "version": "1.0.8",
   "channel": "stable",
-  "releaseDate": "2026-07-29T16:55:42.859Z",
+  "releaseDate": "2026-07-29T17:07:15.674Z",
   "notes": [
     "Thermal receipts now print at native 58mm, 76mm, or 80mm width instead of shrinking into a tiny center column.",
     "Long shop bills use measured continuous receipt height so text stays readable instead of being compressed.",

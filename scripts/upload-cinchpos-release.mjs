@@ -104,6 +104,8 @@ async function main() {
   const releaseDate = new Date().toISOString();
   const windowsSetup = `CinchPOS Setup ${version}.exe`;
   const windowsSetupBlockmap = `${windowsSetup}.blockmap`;
+  const windowsUpdateSetup = `CinchPOS-Setup-${version}.exe`;
+  const windowsUpdateSetupBlockmap = `${windowsUpdateSetup}.blockmap`;
   const macArmZip = `CinchPOS-${version}-arm64-mac.zip`;
   const macArmZipBlockmap = `${macArmZip}.blockmap`;
   const macArmDmg = `CinchPOS-${version}-arm64.dmg`;
@@ -117,10 +119,10 @@ async function main() {
   await writeText(latestYmlPath, [
     `version: ${version}`,
     "files:",
-    `  - url: ${blobBaseUrl}/downloads/CinchPOS-Setup.exe`,
+    `  - url: ${blobBaseUrl}/updates/${windowsUpdateSetup}`,
     `    sha512: ${windowsInfo.sha512}`,
     `    size: ${windowsInfo.size}`,
-    `path: ${blobBaseUrl}/downloads/CinchPOS-Setup.exe`,
+    `path: ${blobBaseUrl}/updates/${windowsUpdateSetup}`,
     `sha512: ${windowsInfo.sha512}`,
     `releaseDate: '${releaseDate}'`,
     ""
@@ -159,6 +161,8 @@ async function main() {
   const updateAssets = [
     { source: latestYmlPath, fileName: "latest.yml", pathname: "updates/latest.yml", contentType: "application/x-yaml" },
     { source: latestMacYmlPath, fileName: "latest-mac.yml", pathname: "updates/latest-mac.yml", contentType: "application/x-yaml" },
+    { ...requiredFile(distDir, windowsSetup), fileName: windowsUpdateSetup, pathname: `updates/${windowsUpdateSetup}`, contentType: "application/vnd.microsoft.portable-executable" },
+    { ...requiredFile(distDir, windowsSetupBlockmap), fileName: windowsUpdateSetupBlockmap, pathname: `updates/${windowsUpdateSetupBlockmap}`, contentType: "application/octet-stream" },
     { ...requiredFile(distDir, macArmZip), pathname: `updates/${macArmZip}`, contentType: "application/zip" }
   ];
   const macArmBlockmapAsset = await optionalFile(distDir, macArmZipBlockmap);
