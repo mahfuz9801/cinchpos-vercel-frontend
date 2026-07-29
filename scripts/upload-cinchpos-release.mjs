@@ -29,7 +29,7 @@ function parseVersion(argv) {
   if (flagIndex >= 0 && argv[flagIndex + 1]) {
     return argv[flagIndex + 1];
   }
-  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.6";
+  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.7";
 }
 
 function requiredFile(distDir, fileName) {
@@ -177,6 +177,7 @@ async function main() {
     channel: "stable",
     releaseDate,
     notes: [
+      "App Info now clearly shows the desktop version and Software Update controls.",
       "Owners can recover previous local customers, invoices, and payments into their new account workspace after a database backup.",
       "Save & Print now uses collision-safe backend invoice numbering.",
       "Employee role access can be controlled from Manage Employee.",
