@@ -1,17 +1,17 @@
 {
   "app": "CinchPOS",
-  "deploymentVersion": "release-1.0.7",
-  "updatedAt": "2026-07-29T06:16:10.265Z",
+  "deploymentVersion": "release-1.0.8",
+  "updatedAt": "2026-07-29T16:55:42.859Z",
   "downloadLinks": {
     "windows": {
       "fileName": "CinchPOS-Setup.exe",
       "url": "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe",
-      "sourceFile": "CinchPOS Setup 1.0.7.exe"
+      "sourceFile": "CinchPOS Setup 1.0.8.exe"
     },
     "mac": {
       "fileName": "CinchPOS.dmg",
       "url": "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg",
-      "sourceFile": "CinchPOS-1.0.7-arm64.dmg"
+      "sourceFile": "CinchPOS-1.0.8-arm64.dmg"
     }
   },
   "updateFeed": {
@@ -19,6 +19,10 @@
     "mac": "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/updates/latest-mac.yml"
   },
   "notes": [
+    "Thermal receipts now print at native 58mm, 76mm, or 80mm width instead of shrinking into a tiny center column.",
+    "Long shop bills use measured continuous receipt height so text stays readable instead of being compressed.",
+    "POS item dumps are no longer printed as receipt Notes on older or newly generated bills.",
+    "Print Settings include a shop-printer checklist for roll size, margins, and shrink-to-fit troubleshooting.",
     "App Info now clearly shows the desktop version and Software Update controls.",
     "Owners can recover previous local customers, invoices, and payments into their new account workspace after a database backup.",
     "Save & Print now uses collision-safe backend invoice numbering.",

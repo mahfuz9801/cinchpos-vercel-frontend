@@ -1,8 +1,8 @@
-version: 1.0.7
+version: 1.0.8
 files:
   - url: https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe
-    sha512: d3RK/Lxg2+Y0ndGq/K4o/OGXMJIncW9U6tW8449dnW/nQtYNyBF+Qj1D/XKzfSYL96YwqrsfVOTavy7o3u+Z/w==
-    size: 149679113
+    sha512: PcLgvCIjctQYEd7YHE5WM1g5I1MP2tBYrbYkxSoOg1m/Y0muFJZYePNh66bxdRchdKL3Xo/ApRBPl4uT46fxxQ==
+    size: 149678149
 path: https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe
-sha512: d3RK/Lxg2+Y0ndGq/K4o/OGXMJIncW9U6tW8449dnW/nQtYNyBF+Qj1D/XKzfSYL96YwqrsfVOTavy7o3u+Z/w==
-releaseDate: '2026-07-29T06:16:10.265Z'
+sha512: PcLgvCIjctQYEd7YHE5WM1g5I1MP2tBYrbYkxSoOg1m/Y0muFJZYePNh66bxdRchdKL3Xo/ApRBPl4uT46fxxQ==
+releaseDate: '2026-07-29T16:55:42.859Z'

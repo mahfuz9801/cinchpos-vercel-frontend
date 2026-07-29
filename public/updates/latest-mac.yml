@@ -1,8 +1,8 @@
-version: 1.0.7
+version: 1.0.8
 files:
-  - url: CinchPOS-1.0.7-arm64-mac.zip
-    sha512: b5VDyhImiZa5Glt4vZSpsRyLDKNQc7x2cMdRs+U/nu5sAIE95td/QHf+AmY71mK4CntLs5pDNlTdhn/cO2BNig==
-    size: 173093519
-path: CinchPOS-1.0.7-arm64-mac.zip
-sha512: b5VDyhImiZa5Glt4vZSpsRyLDKNQc7x2cMdRs+U/nu5sAIE95td/QHf+AmY71mK4CntLs5pDNlTdhn/cO2BNig==
-releaseDate: '2026-07-29T06:16:10.265Z'
+  - url: CinchPOS-1.0.8-arm64-mac.zip
+    sha512: QWFJbxPLO78D3/7ZF3ZNrwmpYXUsLubgEuGIobsTNen9UQjNv4VI14QGqkJuEJRc9nqXr/Ksv0NyIPZTw5gu9A==
+    size: 173095403
+path: CinchPOS-1.0.8-arm64-mac.zip
+sha512: QWFJbxPLO78D3/7ZF3ZNrwmpYXUsLubgEuGIobsTNen9UQjNv4VI14QGqkJuEJRc9nqXr/Ksv0NyIPZTw5gu9A==
+releaseDate: '2026-07-29T16:55:42.859Z'
