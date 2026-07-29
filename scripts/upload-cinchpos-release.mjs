@@ -29,7 +29,7 @@ function parseVersion(argv) {
   if (flagIndex >= 0 && argv[flagIndex + 1]) {
     return argv[flagIndex + 1];
   }
-  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.7";
+  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.8";
 }
 
 function requiredFile(distDir, fileName) {
@@ -177,6 +177,10 @@ async function main() {
     channel: "stable",
     releaseDate,
     notes: [
+      "Thermal receipts now print at native 58mm, 76mm, or 80mm width instead of shrinking into a tiny center column.",
+      "Long shop bills use measured continuous receipt height so text stays readable instead of being compressed.",
+      "POS item dumps are no longer printed as receipt Notes on older or newly generated bills.",
+      "Print Settings include a shop-printer checklist for roll size, margins, and shrink-to-fit troubleshooting.",
       "App Info now clearly shows the desktop version and Software Update controls.",
       "Owners can recover previous local customers, invoices, and payments into their new account workspace after a database backup.",
       "Save & Print now uses collision-safe backend invoice numbering.",

@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 
 const hostedDownloadLinks = {
   windows:
-    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.7",
-  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.7"
+    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.8",
+  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.8"
 };
 
 const downloadLinks = {
@@ -21,12 +21,16 @@ const tabs = [
 ];
 
 const latestBuild = {
-  label: "July 28, 2026 build",
-  title: "CinchPOS 1.0.7 desktop release",
+  label: "July 29, 2026 build",
+  title: "CinchPOS 1.0.8 desktop release",
   summary:
-    "This web deploy points customers to CinchPOS 1.0.7 with the restored Software Update panel, safe recovery for previous local bills after account creation, safer invoice numbering, persistent login, role-based employee access, reliable online store publishing, and the latest billing, inventory, invoice, and print improvements.",
+    "This web deploy points customers to CinchPOS 1.0.8 with urgent thermal receipt fixes, readable long-bill printing, safer print calibration, restored Software Update controls, persistent login, role-based employee access, reliable online store publishing, and the latest billing, inventory, invoice, and layout improvements.",
   highlights: [
     "Shop installations are prompted when this newer desktop update is available",
+    "Thermal receipts now print at native 58mm, 76mm, or 80mm width instead of shrinking into a tiny center column",
+    "Long shop bills use measured continuous receipt height so they stay readable instead of being fit-to-page compressed",
+    "POS item dumps are no longer printed as Notes on older or newly generated receipts",
+    "Print Settings include a shop-printer checklist for roll size, margins, and shrink-to-fit troubleshooting",
     "App Info now clearly shows the desktop version and Software Update controls",
     "Owners can recover previous local customers, invoices, and payment records into the new account workspace after a database backup",
     "Save & Print now lets the billing API generate collision-safe invoice numbers",
