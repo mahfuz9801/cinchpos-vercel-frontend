@@ -1,17 +1,17 @@
 {
   "app": "CinchPOS",
-  "deploymentVersion": "release-1.0.8",
-  "updatedAt": "2026-07-29T17:07:15.674Z",
+  "deploymentVersion": "release-1.0.9",
+  "updatedAt": "2026-08-09T18:22:15.512Z",
   "downloadLinks": {
     "windows": {
       "fileName": "CinchPOS-Setup.exe",
       "url": "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe",
-      "sourceFile": "CinchPOS Setup 1.0.8.exe"
+      "sourceFile": "CinchPOS Setup 1.0.9.exe"
     },
     "mac": {
       "fileName": "CinchPOS.dmg",
       "url": "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg",
-      "sourceFile": "CinchPOS-1.0.8-arm64.dmg"
+      "sourceFile": "CinchPOS-1.0.9-arm64.dmg"
     }
   },
   "updateFeed": {
@@ -19,6 +19,9 @@
     "mac": "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/updates/latest-mac.yml"
   },
   "notes": [
+    "Sales Report now downloads customised reports by date range, payment status, content level, and CSV or JSON format.",
+    "Login remains active after the computer restarts until the user manually logs out or the saved session expires.",
+    "Software Update now guides users through Download Update and Restart & Update for native updates.",
     "Thermal receipts now print at native 58mm, 76mm, or 80mm width instead of shrinking into a tiny center column.",
     "Long shop bills use measured continuous receipt height so text stays readable instead of being compressed.",
     "POS item dumps are no longer printed as receipt Notes on older or newly generated bills.",

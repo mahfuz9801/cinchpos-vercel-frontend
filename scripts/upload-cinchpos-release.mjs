@@ -29,7 +29,7 @@ function parseVersion(argv) {
   if (flagIndex >= 0 && argv[flagIndex + 1]) {
     return argv[flagIndex + 1];
   }
-  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.8";
+  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.9";
 }
 
 function requiredFile(distDir, fileName) {
@@ -181,6 +181,9 @@ async function main() {
     channel: "stable",
     releaseDate,
     notes: [
+      "Sales Report now downloads customised reports by date range, payment status, content level, and CSV or JSON format.",
+      "Login remains active after the computer restarts until the user manually logs out or the saved session expires.",
+      "Software Update now guides users through Download Update and Restart & Update for native updates.",
       "Thermal receipts now print at native 58mm, 76mm, or 80mm width instead of shrinking into a tiny center column.",
       "Long shop bills use measured continuous receipt height so text stays readable instead of being compressed.",
       "POS item dumps are no longer printed as receipt Notes on older or newly generated bills.",

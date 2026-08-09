@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 
 const hostedDownloadLinks = {
   windows:
-    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.8",
-  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.8"
+    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.9",
+  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.9"
 };
 
 const downloadLinks = {
@@ -21,12 +21,15 @@ const tabs = [
 ];
 
 const latestBuild = {
-  label: "July 29, 2026 build",
-  title: "CinchPOS 1.0.8 desktop release",
+  label: "August 9, 2026 build",
+  title: "CinchPOS 1.0.9 desktop release",
   summary:
-    "This web deploy points customers to CinchPOS 1.0.8 with urgent thermal receipt fixes, readable long-bill printing, safer print calibration, restored Software Update controls, persistent login, role-based employee access, reliable online store publishing, and the latest billing, inventory, invoice, and layout improvements.",
+    "This web deploy points customers to CinchPOS 1.0.9 with custom sales report downloads, persistent login after system restart, cleaner restart-based update messaging, duplicate app cleanup, thermal receipt fixes, role-based employee access, reliable online store publishing, and the latest billing, inventory, invoice, and layout improvements.",
   highlights: [
     "Shop installations are prompted when this newer desktop update is available",
+    "Sales Report now downloads customised reports by date range, payment status, content level, and CSV or JSON format",
+    "Login remains active after the computer restarts until the user manually logs out or the session expires",
+    "Software Update now guides users through Download Update and Restart & Update instead of making reinstall feel like the normal path",
     "Thermal receipts now print at native 58mm, 76mm, or 80mm width instead of shrinking into a tiny center column",
     "Long shop bills use measured continuous receipt height so they stay readable instead of being fit-to-page compressed",
     "POS item dumps are no longer printed as Notes on older or newly generated receipts",
