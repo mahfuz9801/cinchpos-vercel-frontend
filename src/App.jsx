@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 
 const hostedDownloadLinks = {
   windows:
-    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.9",
-  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.9"
+    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.10",
+  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.10"
 };
 
 const downloadLinks = {
@@ -21,12 +21,13 @@ const tabs = [
 ];
 
 const latestBuild = {
-  label: "August 9, 2026 build",
-  title: "CinchPOS 1.0.9 desktop release",
+  label: "August 10, 2026 build",
+  title: "CinchPOS 1.0.10 desktop release",
   summary:
-    "This web deploy points customers to CinchPOS 1.0.9 with custom sales report downloads, persistent login after system restart, cleaner restart-based update messaging, duplicate app cleanup, thermal receipt fixes, role-based employee access, reliable online store publishing, and the latest billing, inventory, invoice, and layout improvements.",
+    "This web deploy points customers to CinchPOS 1.0.10 with corrected POS bill tab numbering, custom sales report downloads, persistent login after system restart, cleaner restart-based update messaging, duplicate app cleanup, thermal receipt fixes, role-based employee access, reliable online store publishing, and the latest billing, inventory, invoice, and layout improvements.",
   highlights: [
     "Shop installations are prompted when this newer desktop update is available",
+    "CinchPOS bill tabs now always display open bills as Bill 1, Bill 2, Bill 3 even after older bills are deleted",
     "Sales Report now downloads customised reports by date range, payment status, content level, and CSV or JSON format",
     "Login remains active after the computer restarts until the user manually logs out or the session expires",
     "Software Update now guides users through Download Update and Restart & Update instead of making reinstall feel like the normal path",

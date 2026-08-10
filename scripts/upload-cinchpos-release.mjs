@@ -29,7 +29,7 @@ function parseVersion(argv) {
   if (flagIndex >= 0 && argv[flagIndex + 1]) {
     return argv[flagIndex + 1];
   }
-  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.9";
+  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.10";
 }
 
 function requiredFile(distDir, fileName) {
@@ -181,6 +181,7 @@ async function main() {
     channel: "stable",
     releaseDate,
     notes: [
+      "CinchPOS bill tabs now always display open bills as Bill 1, Bill 2, Bill 3 even after older bills are deleted.",
       "Sales Report now downloads customised reports by date range, payment status, content level, and CSV or JSON format.",
       "Login remains active after the computer restarts until the user manually logs out or the saved session expires.",
       "Software Update now guides users through Download Update and Restart & Update for native updates.",
