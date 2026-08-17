@@ -1,6 +1,38 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "cinchpos.in" }],
+      "destination": "https://www.cinchpos.in/",
+      "permanent": true
+    },
+    {
+      "source": "/download",
+      "has": [{ "type": "host", "value": "cinchpos.in" }],
+      "destination": "https://www.cinchpos.in/download",
+      "permanent": true
+    },
+    {
+      "source": "/pricing",
+      "has": [{ "type": "host", "value": "cinchpos.in" }],
+      "destination": "https://www.cinchpos.in/pricing",
+      "permanent": true
+    },
+    {
+      "source": "/features",
+      "has": [{ "type": "host", "value": "cinchpos.in" }],
+      "destination": "https://www.cinchpos.in/features",
+      "permanent": true
+    },
+    {
+      "source": "/about",
+      "has": [{ "type": "host", "value": "cinchpos.in" }],
+      "destination": "https://www.cinchpos.in/about",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/((?!api/).*)",

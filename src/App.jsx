@@ -13,12 +13,16 @@ const downloadLinks = {
 
 const publicApiBaseUrl = (import.meta.env.VITE_CINCHPOS_PUBLIC_API_URL || "http://localhost:5001").replace(/\/+$/, "");
 
-const tabs = [
-  { id: "download", label: "Download" },
-  { id: "pricing", label: "Pricing" },
-  { id: "features", label: "Features" },
-  { id: "about", label: "About" }
+const navItems = [
+  { id: "home", label: "Home", path: "/" },
+  { id: "download", label: "Download", path: "/download" },
+  { id: "pricing", label: "Pricing", path: "/pricing" },
+  { id: "features", label: "Features", path: "/features" },
+  { id: "about", label: "About", path: "/about" }
 ];
+
+const navItemById = Object.fromEntries(navItems.map((item) => [item.id, item]));
+const navItemByPath = Object.fromEntries(navItems.map((item) => [item.path, item]));
 
 const latestBuild = {
   label: "August 10, 2026 build",
@@ -166,6 +170,11 @@ function detectPlatform() {
   if (userAgent.includes("mac")) return "mac";
   if (userAgent.includes("win")) return "windows";
   return "windows";
+}
+
+function getMarketingPageFromPath() {
+  const path = window.location.pathname.replace(/\/+$/, "") || "/";
+  return navItemByPath[path]?.id || "home";
 }
 
 function currency(value) {
@@ -352,7 +361,7 @@ function downloadOnlineInvoice(store, order) {
 }
 
 function MarketingApp() {
-  const [activeTab, setActiveTab] = useState("download");
+  const [activePage, setActivePage] = useState(getMarketingPageFromPath);
   const [platform, setPlatform] = useState("windows");
   const [theme, setTheme] = useState(() => localStorage.getItem("cinchpos-theme") || "system");
   const [billingCycle, setBillingCycle] = useState("monthly");
@@ -364,6 +373,17 @@ function MarketingApp() {
   useEffect(() => {
     setPlatform(detectPlatform());
   }, []);
+
+  useEffect(() => {
+    const syncPageFromUrl = () => setActivePage(getMarketingPageFromPath());
+    window.addEventListener("popstate", syncPageFromUrl);
+    return () => window.removeEventListener("popstate", syncPageFromUrl);
+  }, []);
+
+  useEffect(() => {
+    const pageLabel = navItemById[activePage]?.label || "Home";
+    document.title = pageLabel === "Home" ? "CinchPOS" : `${pageLabel} | CinchPOS`;
+  }, [activePage]);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-color-scheme: dark)");
@@ -418,20 +438,34 @@ function MarketingApp() {
   function applyAdvisorRecommendation() {
     setSelectedAddOns(advisorRecommendation.map((item) => item.id));
     setBillingCycle("monthly");
-    setActiveTab("pricing");
+    navigateToPage("pricing");
     setAdvisorOpen(false);
+  }
+
+  function navigateToPage(pageId) {
+    const nextItem = navItemById[pageId] || navItemById.home;
+    if (window.location.pathname !== nextItem.path) {
+      window.history.pushState({}, "", nextItem.path);
+    }
+    setActivePage(nextItem.id);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function handleNavClick(event, pageId) {
+    event.preventDefault();
+    navigateToPage(pageId);
   }
 
   return (
     <div className="min-h-screen overflow-hidden bg-grid bg-[length:44px_44px]">
       <div className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute left-[-12%] top-[-20%] h-[460px] w-[460px] rounded-full bg-cinch-fresh/40 blur-3xl dark:bg-cinch-emerald/10" />
+        <div className="absolute left-[-12%] top-[-20%] h-[460px] w-[460px] rounded-full bg-cinch-mint/20 blur-3xl dark:bg-cinch-emerald/10" />
         <div className="absolute bottom-[-14%] right-[-12%] h-[520px] w-[520px] rounded-full bg-cinch-blue/10 blur-3xl" />
       </div>
 
       <header className="sticky top-0 z-40 border-b border-cinch-muted/20 bg-cinch-soft/90 px-4 py-3 backdrop-blur-2xl dark:border-cinch-line dark:bg-cinch-black/90">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
-          <button className="flex min-w-0 items-center gap-3 text-left" onClick={() => setActiveTab("download")}>
+          <a className="flex min-w-0 items-center gap-3 text-left" href="/" onClick={(event) => handleNavClick(event, "home")}>
             <img
               src="/assets/logo-cinchpos-mark.png"
               alt="CinchPOS"
@@ -443,31 +477,23 @@ function MarketingApp() {
                 Desktop billing download
               </small>
             </span>
-          </button>
+          </a>
 
-          <nav className="hidden items-center rounded-full border border-cinch-muted/20 bg-white/50 p-1 backdrop-blur-xl dark:bg-cinch-panel/70 lg:flex">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                className={`tab-button ${activeTab === tab.id ? "tab-button-active" : ""}`}
-                onClick={() => setActiveTab(tab.id)}
+          <nav className="hidden items-center rounded-full border border-cinch-muted/25 bg-cinch-soft/90 p-1 backdrop-blur-xl dark:border-cinch-slate/15 dark:bg-cinch-panel/80 lg:flex">
+            {navItems.map((item) => (
+              <a
+                key={item.id}
+                href={item.path}
+                className={`tab-button ${activePage === item.id ? "tab-button-active" : ""}`}
+                onClick={(event) => handleNavClick(event, item.id)}
               >
-                {tab.label}
-              </button>
+                {item.label}
+              </a>
             ))}
           </nav>
 
           <div className="flex items-center gap-2">
-            <select
-              className="hidden rounded-2xl border border-cinch-muted/25 bg-white/80 px-3 py-2 text-xs font-extrabold text-cinch-forest outline-none focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft sm:block"
-              value={theme}
-              onChange={(event) => setTheme(event.target.value)}
-              aria-label="Theme preference"
-            >
-              <option value="system">System</option>
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-            </select>
+            <ThemeToggle theme={theme} setTheme={setTheme} />
             <a className="primary-button px-4 py-2" href={recommendedDownload.url} download={recommendedDownload.fileName}>
               Download
             </a>
@@ -475,28 +501,36 @@ function MarketingApp() {
         </div>
 
         <nav className="mx-auto mt-3 flex max-w-7xl gap-2 overflow-auto pb-1 lg:hidden">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              className={`tab-button shrink-0 ${activeTab === tab.id ? "tab-button-active" : ""}`}
-              onClick={() => setActiveTab(tab.id)}
+          {navItems.map((item) => (
+            <a
+              key={item.id}
+              href={item.path}
+              className={`tab-button shrink-0 ${activePage === item.id ? "tab-button-active" : ""}`}
+              onClick={(event) => handleNavClick(event, item.id)}
             >
-              {tab.label}
-            </button>
+              {item.label}
+            </a>
           ))}
         </nav>
       </header>
 
       <main className="mx-auto max-w-7xl px-4 py-8 sm:py-12">
-        <Hero
-          recommendedDownload={recommendedDownload}
-          setActiveTab={setActiveTab}
-          openAdvisor={() => setAdvisorOpen(true)}
-        />
-
-        <section className="mt-8 fade-up">
-          {activeTab === "download" && <DownloadTab recommendedDownload={recommendedDownload} setActiveTab={setActiveTab} />}
-          {activeTab === "pricing" && (
+        {activePage === "home" && (
+          <HomePage
+            recommendedDownload={recommendedDownload}
+            navigateToPage={navigateToPage}
+            openAdvisor={() => setAdvisorOpen(true)}
+          />
+        )}
+        {activePage === "download" && (
+          <DownloadPage
+            recommendedDownload={recommendedDownload}
+            navigateToPage={navigateToPage}
+            openAdvisor={() => setAdvisorOpen(true)}
+          />
+        )}
+        {activePage === "pricing" && (
+          <section className="fade-up">
             <PricingTab
               billingCycle={billingCycle}
               selectedAddOns={selectedAddOns}
@@ -505,10 +539,18 @@ function MarketingApp() {
               toggleAddOn={toggleAddOn}
               openAdvisor={() => setAdvisorOpen(true)}
             />
-          )}
-          {activeTab === "features" && <FeaturesTab />}
-          {activeTab === "about" && <AboutTab openAdvisor={() => setAdvisorOpen(true)} />}
-        </section>
+          </section>
+        )}
+        {activePage === "features" && (
+          <section className="fade-up">
+            <FeaturesTab />
+          </section>
+        )}
+        {activePage === "about" && (
+          <section className="fade-up">
+            <AboutTab openAdvisor={() => setAdvisorOpen(true)} />
+          </section>
+        )}
       </main>
 
       <button
@@ -537,7 +579,82 @@ function MarketingApp() {
   );
 }
 
-function Hero({ recommendedDownload, setActiveTab, openAdvisor }) {
+function ThemeToggle({ theme, setTheme }) {
+  return (
+    <div
+      className="hidden items-center rounded-full border border-cinch-muted/30 bg-cinch-soft p-1 dark:border-cinch-slate/20 dark:bg-cinch-panel sm:flex"
+      aria-label="Theme preference"
+      role="group"
+    >
+      {[
+        ["system", "System"],
+        ["light", "Light"],
+        ["dark", "Dark"]
+      ].map(([value, label]) => (
+        <button
+          key={value}
+          type="button"
+          className={`h-9 rounded-full px-3 text-xs font-black transition ${
+            theme === value
+              ? "bg-cinch-mint text-cinch-black shadow-glow"
+              : "text-cinch-forest hover:bg-cinch-mint/15 dark:text-cinch-slate dark:hover:bg-cinch-line"
+          }`}
+          aria-pressed={theme === value}
+          onClick={() => setTheme(value)}
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function HomePage({ recommendedDownload, navigateToPage, openAdvisor }) {
+  return (
+    <div className="grid gap-8 fade-up">
+      <Hero
+        mode="home"
+        recommendedDownload={recommendedDownload}
+        navigateToPage={navigateToPage}
+        openAdvisor={openAdvisor}
+      />
+      <section className="grid gap-4 md:grid-cols-3">
+        {[
+          ["Free billing app", "Download and run core billing without forcing paid add-ons."],
+          ["POS workspace", "Billing, inventory, purchases, invoices, bank, documents, reports, and print settings stay connected."],
+          ["Optional growth tools", "Add subscriptions only when backup, analytics, employee roles, reminders, or onboarding become useful."]
+        ].map(([title, body]) => (
+          <article key={title} className="glass-card rounded-[1.5rem] p-5">
+            <h2 className="font-display text-2xl font-bold tracking-[-0.05em]">{title}</h2>
+            <p className="mt-3 text-sm font-semibold leading-7 text-cinch-muted dark:text-cinch-slate">{body}</p>
+          </article>
+        ))}
+      </section>
+    </div>
+  );
+}
+
+function DownloadPage({ recommendedDownload, navigateToPage, openAdvisor }) {
+  return (
+    <div className="grid gap-8 fade-up">
+      <Hero
+        mode="download"
+        recommendedDownload={recommendedDownload}
+        navigateToPage={navigateToPage}
+        openAdvisor={openAdvisor}
+      />
+      <DownloadTab recommendedDownload={recommendedDownload} />
+    </div>
+  );
+}
+
+function Hero({ mode = "home", recommendedDownload, navigateToPage, openAdvisor }) {
+  const isDownloadPage = mode === "download";
+  const headline = isDownloadPage ? "Download CinchPOS Desktop." : "CinchPOS billing for modern stores.";
+  const subheading = isDownloadPage
+    ? "Install the free CinchPOS desktop billing app, then add optional subscriptions only when the business actually needs them."
+    : "Run billing, inventory, purchase, invoices, documents, reports, and online selling from one clean desktop workspace.";
+
   return (
     <section className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
       <div className="glass-card rounded-[2rem] p-6 sm:p-8 lg:p-10">
@@ -545,27 +662,26 @@ function Hero({ recommendedDownload, setActiveTab, openAdvisor }) {
           <span className="chip">Free desktop billing app</span>
           <span className="chip">Optional paid add-ons</span>
           <span className="chip">Print-ready build</span>
-          <span className="chip">Vercel-ready frontend</span>
+          <span className="chip">CinchPOS 1.0.10</span>
         </div>
         <h1 className="max-w-4xl font-display text-5xl font-bold leading-[0.92] tracking-[-0.08em] sm:text-7xl lg:text-8xl">
-          Download CinchPOS Desktop.
+          {headline}
         </h1>
         <p className="mt-6 max-w-2xl text-base font-semibold leading-8 text-cinch-muted dark:text-cinch-slate sm:text-lg">
-          A modern download page for the free CinchPOS billing app, with clear pricing for optional add-ons,
-          feature guidance, and a smart advisor that helps customers avoid buying what they do not need.
+          {subheading}
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <a className="primary-button" href={recommendedDownload.url} download={recommendedDownload.fileName}>
             Download for {recommendedDownload.os}
           </a>
-          <button className="secondary-button" onClick={() => setActiveTab("pricing")}>
+          <button className="secondary-button" onClick={() => navigateToPage("pricing")}>
             View pricing
           </button>
           <button className="secondary-button" onClick={openAdvisor}>
             Ask smart advisor
           </button>
         </div>
-        <div className="mt-6 rounded-[1.5rem] border border-cinch-emerald/25 bg-cinch-fresh/40 p-5 dark:border-cinch-mint/20 dark:bg-cinch-line/60">
+        <div className="mt-6 rounded-[1.5rem] border border-cinch-emerald/25 bg-cinch-mint/10 p-5 dark:border-cinch-mint/20 dark:bg-cinch-line/60">
           <span className="chip">{latestBuild.label}</span>
           <h2 className="mt-3 font-display text-2xl font-bold tracking-[-0.05em]">{latestBuild.title}</h2>
           <p className="mt-2 text-sm font-bold leading-6 text-cinch-muted dark:text-cinch-slate">
@@ -574,7 +690,7 @@ function Hero({ recommendedDownload, setActiveTab, openAdvisor }) {
         </div>
       </div>
 
-      <div className="glass-card relative overflow-x-auto overflow-y-hidden rounded-[2rem] bg-cinch-soft/70 p-5 shadow-soft dark:bg-cinch-panel/90 sm:p-6">
+      <div className="glass-card relative overflow-x-auto overflow-y-hidden rounded-[2rem] bg-cinch-soft p-5 shadow-soft dark:bg-cinch-panel/90 sm:p-6">
         <div className="min-w-[620px] rounded-[1.5rem] border border-cinch-line bg-cinch-black p-4 text-cinch-soft shadow-[inset_0_1px_0_rgba(230,244,234,0.06)] sm:min-w-0">
           <div className="mb-4 flex flex-wrap items-center gap-2">
             <div className="flex items-center gap-2">
@@ -597,7 +713,7 @@ function Hero({ recommendedDownload, setActiveTab, openAdvisor }) {
                   className={`rounded-2xl border px-3 py-2 text-sm font-black ${
                     index === 1
                       ? "border-cinch-mint bg-cinch-mint text-cinch-black shadow-glow"
-                      : "border-cinch-line bg-cinch-panel/90 text-cinch-fresh"
+                      : "border-cinch-line bg-cinch-panel/90 text-cinch-mint"
                   }`}
                 >
                   {item}
@@ -665,7 +781,7 @@ function DownloadTab({ recommendedDownload }) {
         </div>
         <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
           {latestBuild.highlights.map((item) => (
-            <div key={item} className="rounded-[1.25rem] border border-cinch-muted/20 bg-white/50 p-4 text-sm font-bold leading-6 dark:bg-cinch-panel">
+            <div key={item} className="rounded-[1.25rem] border border-cinch-muted/20 bg-cinch-soft/80 p-4 text-sm font-bold leading-6 dark:bg-cinch-panel">
               {item}
             </div>
           ))}
@@ -710,7 +826,7 @@ function PricingTab({ billingCycle, selectedAddOns, selectedTotal, setBillingCyc
               Pay only for extra features.
             </h2>
           </div>
-          <div className="rounded-full border border-cinch-muted/20 bg-white/60 p-1 dark:bg-cinch-panel">
+          <div className="rounded-full border border-cinch-muted/20 bg-cinch-soft/90 p-1 dark:bg-cinch-panel">
             {["monthly", "yearly"].map((cycle) => (
               <button
                 key={cycle}
@@ -735,7 +851,7 @@ function PricingTab({ billingCycle, selectedAddOns, selectedTotal, setBillingCyc
                 className={`rounded-[1.5rem] border p-5 text-left transition hover:-translate-y-1 ${
                   selected
                     ? "border-cinch-emerald/70 bg-cinch-mint/20 shadow-glow dark:border-cinch-mint/50 dark:bg-cinch-line/80"
-                    : "border-cinch-muted/20 bg-white/60 dark:border-cinch-slate/15 dark:bg-cinch-panel/80"
+                    : "border-cinch-muted/20 bg-cinch-soft/90 dark:border-cinch-slate/15 dark:bg-cinch-panel/80"
                 }`}
                 onClick={() => toggleAddOn(item.id)}
               >
@@ -761,7 +877,7 @@ function PricingTab({ billingCycle, selectedAddOns, selectedTotal, setBillingCyc
         <p className="mt-2 text-sm font-semibold leading-6 text-cinch-muted dark:text-cinch-slate">
           Selected add-ons are charged separately. Use the advisor if the customer is unsure.
         </p>
-        <div className="my-6 rounded-[1.5rem] border border-cinch-emerald/25 bg-cinch-fresh/40 p-5 dark:border-cinch-mint/20 dark:bg-cinch-line/60">
+        <div className="my-6 rounded-[1.5rem] border border-cinch-emerald/25 bg-cinch-mint/10 p-5 dark:border-cinch-mint/20 dark:bg-cinch-line/60">
           <span className="text-xs font-black uppercase text-cinch-forest dark:text-cinch-mint">
             {billingCycle === "yearly" ? "Yearly estimate" : "Monthly estimate"}
           </span>
@@ -772,12 +888,12 @@ function PricingTab({ billingCycle, selectedAddOns, selectedTotal, setBillingCyc
             addOns
               .filter((item) => selectedAddOns.includes(item.id))
               .map((item) => (
-                <div key={item.id} className="rounded-2xl bg-white/70 px-4 py-3 text-sm font-bold dark:bg-cinch-panel">
+                <div key={item.id} className="rounded-2xl bg-cinch-soft/95 px-4 py-3 text-sm font-bold dark:bg-cinch-panel">
                   {item.name}
                 </div>
               ))
           ) : (
-            <p className="rounded-2xl bg-white/50 px-4 py-3 text-sm font-bold text-cinch-muted dark:bg-cinch-panel dark:text-cinch-slate">
+            <p className="rounded-2xl bg-cinch-soft/80 px-4 py-3 text-sm font-bold text-cinch-muted dark:bg-cinch-panel dark:text-cinch-slate">
               No paid add-ons selected.
             </p>
           )}
@@ -814,7 +930,7 @@ function FeaturesTab() {
         </h2>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {latestBuild.highlights.map((item) => (
-            <article key={item} className="rounded-[1.5rem] border border-cinch-muted/20 bg-white/50 p-5 dark:bg-cinch-charcoal/75">
+            <article key={item} className="rounded-[1.5rem] border border-cinch-muted/20 bg-cinch-soft/80 p-5 dark:bg-cinch-charcoal/75">
               <strong className="block text-sm">{item}</strong>
             </article>
           ))}
@@ -858,7 +974,7 @@ function AboutTab({ openAdvisor }) {
             ["2", "Run daily billing"],
             ["3", "Add paid tools only when needed"]
           ].map(([step, text]) => (
-            <div key={step} className="rounded-[1.25rem] border border-cinch-muted/20 bg-white/50 p-4 dark:bg-cinch-panel">
+            <div key={step} className="rounded-[1.25rem] border border-cinch-muted/20 bg-cinch-soft/80 p-4 dark:bg-cinch-panel">
               <span className="grid h-9 w-9 place-items-center rounded-xl bg-cinch-mint text-sm font-black text-cinch-black">
                 {step}
               </span>
@@ -1053,7 +1169,7 @@ function OnlineStorePage({ storeSlug }) {
   if (loading) {
     return (
       <main className="min-h-screen bg-cinch-soft px-4 py-10 text-cinch-black dark:bg-cinch-black dark:text-cinch-soft">
-        <section className="mx-auto max-w-5xl rounded-[2rem] border border-cinch-muted/20 bg-white/80 p-8 shadow-soft dark:bg-cinch-charcoal">
+        <section className="mx-auto max-w-5xl rounded-[2rem] border border-cinch-muted/20 bg-cinch-soft p-8 shadow-soft dark:bg-cinch-charcoal">
           <span className="chip">CinchPOS Online Store</span>
           <h1 className="mt-4 font-display text-4xl font-bold tracking-[-0.06em]">Loading store...</h1>
           <p className="mt-3 text-sm font-bold text-cinch-muted dark:text-cinch-slate">Fetching live products and prices.</p>
@@ -1065,7 +1181,7 @@ function OnlineStorePage({ storeSlug }) {
   if (error) {
     return (
       <main className="min-h-screen bg-cinch-soft px-4 py-10 text-cinch-black dark:bg-cinch-black dark:text-cinch-soft">
-        <section className="mx-auto max-w-5xl rounded-[2rem] border border-cinch-muted/20 bg-white/80 p-8 shadow-soft dark:bg-cinch-charcoal">
+        <section className="mx-auto max-w-5xl rounded-[2rem] border border-cinch-muted/20 bg-cinch-soft p-8 shadow-soft dark:bg-cinch-charcoal">
           <span className="chip">Store unavailable</span>
           <h1 className="mt-4 font-display text-4xl font-bold tracking-[-0.06em]">This online store could not be opened.</h1>
           <p className="mt-3 text-sm font-bold text-cinch-muted dark:text-cinch-slate">{error}</p>
@@ -1094,7 +1210,7 @@ function OnlineStorePage({ storeSlug }) {
               </p>
             </div>
           </div>
-          <div className="rounded-2xl border border-cinch-muted/20 bg-white/80 px-4 py-3 text-sm font-black dark:border-cinch-slate/20 dark:bg-cinch-panel">
+          <div className="rounded-2xl border border-cinch-muted/20 bg-cinch-soft px-4 py-3 text-sm font-black dark:border-cinch-slate/20 dark:bg-cinch-panel">
             {cartQuantity} item{cartQuantity === 1 ? "" : "s"} | {currency(cartTotal)}
           </div>
         </header>
@@ -1111,7 +1227,7 @@ function OnlineStorePage({ storeSlug }) {
               <label className="grid min-w-[240px] gap-2 text-sm font-black sm:min-w-[320px]">
                 Search
                 <input
-                  className="rounded-2xl border border-cinch-muted/25 bg-white/90 px-4 py-3 text-sm font-bold text-cinch-black outline-none placeholder:text-cinch-muted focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft dark:placeholder:text-cinch-slate"
+                  className="rounded-2xl border border-cinch-muted/25 bg-cinch-soft px-4 py-3 text-sm font-bold text-cinch-black outline-none placeholder:text-cinch-muted focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft dark:placeholder:text-cinch-slate"
                   placeholder="Search product or barcode"
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
@@ -1125,7 +1241,7 @@ function OnlineStorePage({ storeSlug }) {
                 const quantity = cart[key] || 0;
                 const stock = Math.floor(Number(product.stock || 0));
                 return (
-                  <article key={key} className="rounded-[1.25rem] border border-cinch-muted/20 bg-white/75 p-4 dark:border-cinch-slate/15 dark:bg-cinch-panel">
+                  <article key={key} className="rounded-[1.25rem] border border-cinch-muted/20 bg-cinch-soft/95 p-4 dark:border-cinch-slate/15 dark:bg-cinch-panel">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
                         <h3 className="truncate font-display text-lg font-bold tracking-[-0.04em]">{product.name}</h3>
@@ -1148,7 +1264,7 @@ function OnlineStorePage({ storeSlug }) {
                         ) : null}
                       </div>
                       {quantity ? (
-                        <div className="flex items-center rounded-2xl border border-cinch-muted/25 bg-white/80 dark:border-cinch-slate/20 dark:bg-cinch-charcoal">
+                        <div className="flex items-center rounded-2xl border border-cinch-muted/25 bg-cinch-soft dark:border-cinch-slate/20 dark:bg-cinch-charcoal">
                           <button className="px-3 py-2 font-black" onClick={() => setCartQuantity(product, quantity - 1)}>-</button>
                           <span className="min-w-8 text-center text-sm font-black">{quantity}</span>
                           <button className="px-3 py-2 font-black" onClick={() => setCartQuantity(product, quantity + 1)}>+</button>
@@ -1165,7 +1281,7 @@ function OnlineStorePage({ storeSlug }) {
             </div>
 
             {!filteredProducts.length ? (
-              <div className="mt-5 rounded-[1.25rem] border border-cinch-muted/20 bg-white/70 p-5 text-sm font-bold text-cinch-muted dark:bg-cinch-panel dark:text-cinch-slate">
+              <div className="mt-5 rounded-[1.25rem] border border-cinch-muted/20 bg-cinch-soft/95 p-5 text-sm font-bold text-cinch-muted dark:bg-cinch-panel dark:text-cinch-slate">
                 No products matched your search.
               </div>
             ) : null}
@@ -1175,7 +1291,7 @@ function OnlineStorePage({ storeSlug }) {
             <h2 className="font-display text-2xl font-bold tracking-[-0.05em]">Checkout</h2>
             <div className="mt-4 grid gap-3">
               {cartLines.length ? cartLines.map((line) => (
-                <div key={line.productKey} className="rounded-[1rem] border border-cinch-muted/20 bg-white/60 p-3 text-sm font-bold dark:bg-cinch-panel">
+                <div key={line.productKey} className="rounded-[1rem] border border-cinch-muted/20 bg-cinch-soft/90 p-3 text-sm font-bold dark:bg-cinch-panel">
                   <div className="flex justify-between gap-3">
                     <span>{line.product.name}</span>
                     <strong>{currency(line.lineTotal)}</strong>
@@ -1185,7 +1301,7 @@ function OnlineStorePage({ storeSlug }) {
                   </small>
                 </div>
               )) : (
-                <p className="rounded-[1rem] border border-cinch-muted/20 bg-white/60 p-4 text-sm font-bold text-cinch-muted dark:bg-cinch-panel dark:text-cinch-slate">
+                <p className="rounded-[1rem] border border-cinch-muted/20 bg-cinch-soft/90 p-4 text-sm font-bold text-cinch-muted dark:bg-cinch-panel dark:text-cinch-slate">
                   Add products to start checkout.
                 </p>
               )}
@@ -1198,14 +1314,14 @@ function OnlineStorePage({ storeSlug }) {
 
             <form className="grid gap-3" onSubmit={submitCheckout}>
               <input
-                className="rounded-2xl border border-cinch-muted/25 bg-white/90 px-4 py-3 text-sm font-bold text-cinch-black outline-none placeholder:text-cinch-muted focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft dark:placeholder:text-cinch-slate"
+                className="rounded-2xl border border-cinch-muted/25 bg-cinch-soft px-4 py-3 text-sm font-bold text-cinch-black outline-none placeholder:text-cinch-muted focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft dark:placeholder:text-cinch-slate"
                 placeholder="Customer name"
                 value={customer.name}
                 onChange={(event) => setCustomer((current) => ({ ...current, name: event.target.value }))}
                 required
               />
               <input
-                className="rounded-2xl border border-cinch-muted/25 bg-white/90 px-4 py-3 text-sm font-bold text-cinch-black outline-none placeholder:text-cinch-muted focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft dark:placeholder:text-cinch-slate"
+                className="rounded-2xl border border-cinch-muted/25 bg-cinch-soft px-4 py-3 text-sm font-bold text-cinch-black outline-none placeholder:text-cinch-muted focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft dark:placeholder:text-cinch-slate"
                 inputMode="numeric"
                 placeholder="10 digit phone"
                 value={customer.phone}
@@ -1213,14 +1329,14 @@ function OnlineStorePage({ storeSlug }) {
                 required
               />
               <input
-                className="rounded-2xl border border-cinch-muted/25 bg-white/90 px-4 py-3 text-sm font-bold text-cinch-black outline-none placeholder:text-cinch-muted focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft dark:placeholder:text-cinch-slate"
+                className="rounded-2xl border border-cinch-muted/25 bg-cinch-soft px-4 py-3 text-sm font-bold text-cinch-black outline-none placeholder:text-cinch-muted focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft dark:placeholder:text-cinch-slate"
                 type="email"
                 placeholder="Email optional"
                 value={customer.email}
                 onChange={(event) => setCustomer((current) => ({ ...current, email: event.target.value }))}
               />
               <textarea
-                className="min-h-24 rounded-2xl border border-cinch-muted/25 bg-white/90 px-4 py-3 text-sm font-bold text-cinch-black outline-none placeholder:text-cinch-muted focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft dark:placeholder:text-cinch-slate"
+                className="min-h-24 rounded-2xl border border-cinch-muted/25 bg-cinch-soft px-4 py-3 text-sm font-bold text-cinch-black outline-none placeholder:text-cinch-muted focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft dark:placeholder:text-cinch-slate"
                 placeholder="Address optional"
                 value={customer.address}
                 onChange={(event) => setCustomer((current) => ({ ...current, address: event.target.value }))}
@@ -1232,7 +1348,7 @@ function OnlineStorePage({ storeSlug }) {
             </form>
 
             {createdOrder ? (
-              <div className="mt-5 rounded-[1.25rem] border border-cinch-emerald/40 bg-cinch-fresh/50 p-4 dark:bg-cinch-line/70">
+              <div className="mt-5 rounded-[1.25rem] border border-cinch-emerald/40 bg-cinch-mint/15 p-4 dark:bg-cinch-line/70">
                 <strong className="block text-sm">Order placed: {createdOrder.invoice_number}</strong>
                 <p className="mt-1 text-xs font-bold text-cinch-muted dark:text-cinch-slate">Download the invoice for this checkout.</p>
                 <button className="secondary-button mt-3 w-full" onClick={downloadCreatedInvoice}>
@@ -1280,7 +1396,7 @@ function AdvisorModal({
           <label className="grid gap-2 text-sm font-black">
             Business type
             <select
-              className="rounded-2xl border border-cinch-muted/25 bg-white/90 px-4 py-3 font-bold text-cinch-black outline-none focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft"
+              className="rounded-2xl border border-cinch-muted/25 bg-cinch-soft px-4 py-3 font-bold text-cinch-black outline-none focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft"
               value={advisorProfile}
               onChange={(event) => setAdvisorProfile(event.target.value)}
             >
@@ -1294,7 +1410,7 @@ function AdvisorModal({
           <label className="grid gap-2 text-sm font-black">
             Number of outlets
             <select
-              className="rounded-2xl border border-cinch-muted/25 bg-white/90 px-4 py-3 font-bold text-cinch-black outline-none focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft"
+              className="rounded-2xl border border-cinch-muted/25 bg-cinch-soft px-4 py-3 font-bold text-cinch-black outline-none focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft"
               value={advisorOutlets}
               onChange={(event) => setAdvisorOutlets(event.target.value)}
             >
@@ -1305,11 +1421,11 @@ function AdvisorModal({
           </label>
         </div>
 
-        <div className="mt-6 rounded-[1.5rem] border border-cinch-emerald/25 bg-cinch-fresh/40 p-5 dark:border-cinch-mint/20 dark:bg-cinch-line/60">
+        <div className="mt-6 rounded-[1.5rem] border border-cinch-emerald/25 bg-cinch-mint/10 p-5 dark:border-cinch-mint/20 dark:bg-cinch-line/60">
           <p className="text-xs font-black uppercase text-cinch-forest dark:text-cinch-mint">Recommended now</p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {advisorRecommendation.map((item) => (
-              <div key={item.id} className="rounded-2xl bg-white/60 p-4 dark:bg-cinch-panel">
+              <div key={item.id} className="rounded-2xl bg-cinch-soft/90 p-4 dark:bg-cinch-panel">
                 <strong className="block text-sm">{item.name}</strong>
                 <span className="mt-1 block text-xs font-bold text-cinch-muted dark:text-cinch-slate">
                   {currency(item.price)} / month

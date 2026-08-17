@@ -13,7 +13,6 @@ export default {
           forest: "#0F3D2E",
           emerald: "#1ED760",
           mint: "#4ADE80",
-          fresh: "#A7F3D0",
           soft: "#E6F4EA",
           slate: "#9FB3A8",
           cool: "#94A3B8",

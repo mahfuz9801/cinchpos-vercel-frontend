@@ -34,7 +34,7 @@
 
 @layer components {
   .glass-card {
-    @apply border border-cinch-muted/25 bg-white/80 shadow-soft backdrop-blur-2xl dark:border-cinch-slate/15 dark:bg-cinch-charcoal/95;
+    @apply border border-cinch-muted/25 bg-cinch-soft/95 shadow-soft backdrop-blur-2xl dark:border-cinch-slate/15 dark:bg-cinch-charcoal/95;
   }
 
   .tab-button {
@@ -50,11 +50,11 @@
   }
 
   .secondary-button {
-    @apply inline-flex items-center justify-center gap-2 rounded-2xl border border-cinch-muted/40 bg-white/75 px-5 py-3 text-sm font-black text-cinch-forest transition hover:-translate-y-0.5 hover:border-cinch-emerald/70 hover:bg-cinch-mint/20 dark:border-cinch-slate/20 dark:bg-cinch-panel/90 dark:text-cinch-soft dark:hover:border-cinch-mint/50 dark:hover:bg-cinch-line;
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl border border-cinch-muted/40 bg-cinch-soft/90 px-5 py-3 text-sm font-black text-cinch-forest transition hover:-translate-y-0.5 hover:border-cinch-emerald/70 hover:bg-cinch-mint/20 dark:border-cinch-slate/20 dark:bg-cinch-panel/90 dark:text-cinch-soft dark:hover:border-cinch-mint/50 dark:hover:bg-cinch-line;
   }
 
   .chip {
-    @apply rounded-full border border-cinch-muted/30 bg-white/75 px-3 py-1 text-xs font-extrabold text-cinch-forest dark:border-cinch-mint/25 dark:bg-cinch-line/80 dark:text-cinch-mint;
+    @apply rounded-full border border-cinch-muted/30 bg-cinch-soft px-3 py-1 text-xs font-extrabold text-cinch-forest dark:border-cinch-mint/25 dark:bg-cinch-line/80 dark:text-cinch-mint;
   }
 }
 
