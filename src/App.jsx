@@ -425,11 +425,11 @@ function MarketingApp() {
   return (
     <div className="min-h-screen overflow-hidden bg-grid bg-[length:44px_44px]">
       <div className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute left-[-12%] top-[-20%] h-[460px] w-[460px] rounded-full bg-cinch-mint/30 blur-3xl dark:bg-cinch-emerald/10" />
+        <div className="absolute left-[-12%] top-[-20%] h-[460px] w-[460px] rounded-full bg-cinch-fresh/40 blur-3xl dark:bg-cinch-emerald/10" />
         <div className="absolute bottom-[-14%] right-[-12%] h-[520px] w-[520px] rounded-full bg-cinch-blue/10 blur-3xl" />
       </div>
 
-      <header className="sticky top-0 z-40 border-b border-cinch-muted/20 bg-cinch-soft/80 px-4 py-3 backdrop-blur-2xl dark:bg-cinch-black/75">
+      <header className="sticky top-0 z-40 border-b border-cinch-muted/20 bg-cinch-soft/90 px-4 py-3 backdrop-blur-2xl dark:border-cinch-line dark:bg-cinch-black/90">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
           <button className="flex min-w-0 items-center gap-3 text-left" onClick={() => setActiveTab("download")}>
             <img
@@ -459,7 +459,7 @@ function MarketingApp() {
 
           <div className="flex items-center gap-2">
             <select
-              className="hidden rounded-2xl border border-cinch-muted/20 bg-white/70 px-3 py-2 text-xs font-extrabold text-cinch-forest outline-none dark:bg-cinch-panel dark:text-cinch-soft sm:block"
+              className="hidden rounded-2xl border border-cinch-muted/25 bg-white/80 px-3 py-2 text-xs font-extrabold text-cinch-forest outline-none focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft sm:block"
               value={theme}
               onChange={(event) => setTheme(event.target.value)}
               aria-label="Theme preference"
@@ -512,13 +512,13 @@ function MarketingApp() {
       </main>
 
       <button
-        className="fixed bottom-5 right-5 z-30 hidden rounded-3xl border border-cinch-mint/40 bg-cinch-black px-4 py-3 text-left text-cinch-soft shadow-glow transition hover:-translate-y-1 dark:bg-cinch-panel sm:flex sm:items-center sm:gap-3"
+        className="fixed bottom-5 right-5 z-30 hidden rounded-3xl border border-cinch-mint/50 bg-cinch-black px-4 py-3 text-left text-cinch-soft shadow-glowStrong transition hover:-translate-y-1 dark:border-cinch-mint/30 dark:bg-cinch-panel sm:flex sm:items-center sm:gap-3"
         onClick={() => setAdvisorOpen(true)}
       >
         <span className="grid h-11 w-11 place-items-center rounded-2xl bg-cinch-mint font-black text-cinch-black">CP</span>
         <span>
           <strong className="block text-sm">Smart Advisor</strong>
-          <small className="block text-xs text-cinch-slate">Avoid unnecessary add-ons</small>
+          <small className="block text-xs font-bold text-cinch-slate">Avoid unnecessary add-ons</small>
         </span>
       </button>
 
@@ -565,7 +565,7 @@ function Hero({ recommendedDownload, setActiveTab, openAdvisor }) {
             Ask smart advisor
           </button>
         </div>
-        <div className="mt-6 rounded-[1.5rem] border border-cinch-mint/30 bg-cinch-mint/15 p-5">
+        <div className="mt-6 rounded-[1.5rem] border border-cinch-emerald/25 bg-cinch-fresh/40 p-5 dark:border-cinch-mint/20 dark:bg-cinch-line/60">
           <span className="chip">{latestBuild.label}</span>
           <h2 className="mt-3 font-display text-2xl font-bold tracking-[-0.05em]">{latestBuild.title}</h2>
           <p className="mt-2 text-sm font-bold leading-6 text-cinch-muted dark:text-cinch-slate">
@@ -574,18 +574,18 @@ function Hero({ recommendedDownload, setActiveTab, openAdvisor }) {
         </div>
       </div>
 
-      <div className="glass-card relative overflow-x-auto overflow-y-hidden rounded-[2rem] p-5 sm:p-6">
-        <div className="min-w-[620px] rounded-[1.5rem] border border-cinch-muted/20 bg-cinch-black p-4 text-cinch-soft sm:min-w-0">
+      <div className="glass-card relative overflow-x-auto overflow-y-hidden rounded-[2rem] bg-cinch-soft/70 p-5 shadow-soft dark:bg-cinch-panel/90 sm:p-6">
+        <div className="min-w-[620px] rounded-[1.5rem] border border-cinch-line bg-cinch-black p-4 text-cinch-soft shadow-[inset_0_1px_0_rgba(230,244,234,0.06)] sm:min-w-0">
           <div className="mb-4 flex flex-wrap items-center gap-2">
             <div className="flex items-center gap-2">
               <span className="h-3 w-3 rounded-full bg-cinch-danger" />
               <span className="h-3 w-3 rounded-full bg-cinch-warning" />
               <span className="h-3 w-3 rounded-full bg-cinch-success" />
             </div>
-            <span className="ml-auto rounded-full border border-cinch-mint/30 px-3 py-1 text-xs font-black text-cinch-mint">
+            <span className="ml-auto rounded-full border border-cinch-mint/50 bg-cinch-line/70 px-3 py-1 text-xs font-black text-cinch-mint">
               CinchPOS Workspace
             </span>
-            <span className="rounded-full bg-cinch-mint px-3 py-1 text-xs font-black text-cinch-black shadow-glow">
+            <span className="rounded-full bg-cinch-mint px-3 py-1 text-xs font-black text-cinch-black shadow-glowStrong">
               {recommendedDownload.fileName}
             </span>
           </div>
@@ -596,23 +596,23 @@ function Hero({ recommendedDownload, setActiveTab, openAdvisor }) {
                   key={item}
                   className={`rounded-2xl border px-3 py-2 text-sm font-black ${
                     index === 1
-                      ? "border-cinch-mint bg-cinch-mint text-cinch-black"
-                      : "border-cinch-muted/40 bg-cinch-charcoal text-cinch-mint"
+                      ? "border-cinch-mint bg-cinch-mint text-cinch-black shadow-glow"
+                      : "border-cinch-line bg-cinch-panel/90 text-cinch-fresh"
                   }`}
                 >
                   {item}
                 </div>
               ))}
             </div>
-            <div className="rounded-2xl border border-cinch-muted/30 bg-cinch-charcoal p-4">
+            <div className="rounded-2xl border border-cinch-line bg-cinch-deep/50 p-4 shadow-[inset_0_1px_0_rgba(230,244,234,0.04)]">
               <div className="mb-4 flex items-center justify-between">
                 <div>
                   <p className="text-xs font-black uppercase text-cinch-mint">Revenue trend</p>
-                  <h3 className="font-display text-2xl font-bold tracking-[-0.05em]">Billing preview</h3>
+                  <h3 className="font-display text-2xl font-bold tracking-[-0.05em] text-cinch-soft">Billing preview</h3>
                 </div>
                 <span className="rounded-full bg-cinch-mint px-3 py-1 text-xs font-black text-cinch-black">Live</span>
               </div>
-              <svg viewBox="0 0 520 210" className="h-48 w-full text-cinch-mint drop-shadow-[0_28px_30px_rgba(166,238,184,0.18)]">
+              <svg viewBox="0 0 520 210" className="h-48 w-full text-cinch-mint drop-shadow-[0_28px_32px_rgba(74,222,128,0.22)]">
                 <defs>
                   <linearGradient id="lineFill" x1="0" x2="0" y1="0" y2="1">
                     <stop offset="0%" stopColor="currentColor" stopOpacity="0.38" />
@@ -676,7 +676,7 @@ function DownloadTab({ recommendedDownload }) {
           <article
             key={item.os}
             className={`glass-card rounded-[1.75rem] p-6 ${
-              item.os === recommendedDownload.os ? "ring-2 ring-cinch-mint" : ""
+              item.os === recommendedDownload.os ? "ring-2 ring-cinch-mint/80" : ""
             }`}
           >
             <div className="flex items-center justify-between gap-4">
@@ -734,8 +734,8 @@ function PricingTab({ billingCycle, selectedAddOns, selectedTotal, setBillingCyc
                 key={item.id}
                 className={`rounded-[1.5rem] border p-5 text-left transition hover:-translate-y-1 ${
                   selected
-                    ? "border-cinch-mint bg-cinch-mint/25 shadow-glow"
-                    : "border-cinch-muted/20 bg-white/50 dark:bg-cinch-charcoal/75"
+                    ? "border-cinch-emerald/70 bg-cinch-mint/20 shadow-glow dark:border-cinch-mint/50 dark:bg-cinch-line/80"
+                    : "border-cinch-muted/20 bg-white/60 dark:border-cinch-slate/15 dark:bg-cinch-panel/80"
                 }`}
                 onClick={() => toggleAddOn(item.id)}
               >
@@ -761,7 +761,7 @@ function PricingTab({ billingCycle, selectedAddOns, selectedTotal, setBillingCyc
         <p className="mt-2 text-sm font-semibold leading-6 text-cinch-muted dark:text-cinch-slate">
           Selected add-ons are charged separately. Use the advisor if the customer is unsure.
         </p>
-        <div className="my-6 rounded-[1.5rem] border border-cinch-mint/30 bg-cinch-mint/15 p-5">
+        <div className="my-6 rounded-[1.5rem] border border-cinch-emerald/25 bg-cinch-fresh/40 p-5 dark:border-cinch-mint/20 dark:bg-cinch-line/60">
           <span className="text-xs font-black uppercase text-cinch-forest dark:text-cinch-mint">
             {billingCycle === "yearly" ? "Yearly estimate" : "Monthly estimate"}
           </span>
@@ -772,7 +772,7 @@ function PricingTab({ billingCycle, selectedAddOns, selectedTotal, setBillingCyc
             addOns
               .filter((item) => selectedAddOns.includes(item.id))
               .map((item) => (
-                <div key={item.id} className="rounded-2xl bg-white/50 px-4 py-3 text-sm font-bold dark:bg-cinch-panel">
+                <div key={item.id} className="rounded-2xl bg-white/70 px-4 py-3 text-sm font-bold dark:bg-cinch-panel">
                   {item.name}
                 </div>
               ))
@@ -800,7 +800,7 @@ function FeaturesTab() {
         </h2>
         <div className="mt-6 flex flex-wrap gap-2">
           {baseModules.map((module) => (
-            <span key={module} className="rounded-full border border-cinch-muted/25 bg-cinch-black px-4 py-2 text-sm font-black text-cinch-mint dark:bg-cinch-panel">
+            <span key={module} className="rounded-full border border-cinch-forest/25 bg-cinch-forest px-4 py-2 text-sm font-black text-cinch-soft dark:border-cinch-mint/20 dark:bg-cinch-panel dark:text-cinch-mint">
               {module}
             </span>
           ))}
@@ -1094,7 +1094,7 @@ function OnlineStorePage({ storeSlug }) {
               </p>
             </div>
           </div>
-          <div className="rounded-2xl border border-cinch-muted/20 bg-white/70 px-4 py-3 text-sm font-black dark:bg-cinch-panel">
+          <div className="rounded-2xl border border-cinch-muted/20 bg-white/80 px-4 py-3 text-sm font-black dark:border-cinch-slate/20 dark:bg-cinch-panel">
             {cartQuantity} item{cartQuantity === 1 ? "" : "s"} | {currency(cartTotal)}
           </div>
         </header>
@@ -1111,7 +1111,7 @@ function OnlineStorePage({ storeSlug }) {
               <label className="grid min-w-[240px] gap-2 text-sm font-black sm:min-w-[320px]">
                 Search
                 <input
-                  className="rounded-2xl border border-cinch-muted/25 bg-white/80 px-4 py-3 text-sm font-bold outline-none focus:border-cinch-emerald dark:bg-cinch-panel"
+                  className="rounded-2xl border border-cinch-muted/25 bg-white/90 px-4 py-3 text-sm font-bold text-cinch-black outline-none placeholder:text-cinch-muted focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft dark:placeholder:text-cinch-slate"
                   placeholder="Search product or barcode"
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
@@ -1125,7 +1125,7 @@ function OnlineStorePage({ storeSlug }) {
                 const quantity = cart[key] || 0;
                 const stock = Math.floor(Number(product.stock || 0));
                 return (
-                  <article key={key} className="rounded-[1.25rem] border border-cinch-muted/20 bg-white/65 p-4 dark:bg-cinch-panel">
+                  <article key={key} className="rounded-[1.25rem] border border-cinch-muted/20 bg-white/75 p-4 dark:border-cinch-slate/15 dark:bg-cinch-panel">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
                         <h3 className="truncate font-display text-lg font-bold tracking-[-0.04em]">{product.name}</h3>
@@ -1148,7 +1148,7 @@ function OnlineStorePage({ storeSlug }) {
                         ) : null}
                       </div>
                       {quantity ? (
-                        <div className="flex items-center rounded-2xl border border-cinch-muted/25 bg-white/70 dark:bg-cinch-charcoal">
+                        <div className="flex items-center rounded-2xl border border-cinch-muted/25 bg-white/80 dark:border-cinch-slate/20 dark:bg-cinch-charcoal">
                           <button className="px-3 py-2 font-black" onClick={() => setCartQuantity(product, quantity - 1)}>-</button>
                           <span className="min-w-8 text-center text-sm font-black">{quantity}</span>
                           <button className="px-3 py-2 font-black" onClick={() => setCartQuantity(product, quantity + 1)}>+</button>
@@ -1198,14 +1198,14 @@ function OnlineStorePage({ storeSlug }) {
 
             <form className="grid gap-3" onSubmit={submitCheckout}>
               <input
-                className="rounded-2xl border border-cinch-muted/25 bg-white/80 px-4 py-3 text-sm font-bold outline-none focus:border-cinch-emerald dark:bg-cinch-panel"
+                className="rounded-2xl border border-cinch-muted/25 bg-white/90 px-4 py-3 text-sm font-bold text-cinch-black outline-none placeholder:text-cinch-muted focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft dark:placeholder:text-cinch-slate"
                 placeholder="Customer name"
                 value={customer.name}
                 onChange={(event) => setCustomer((current) => ({ ...current, name: event.target.value }))}
                 required
               />
               <input
-                className="rounded-2xl border border-cinch-muted/25 bg-white/80 px-4 py-3 text-sm font-bold outline-none focus:border-cinch-emerald dark:bg-cinch-panel"
+                className="rounded-2xl border border-cinch-muted/25 bg-white/90 px-4 py-3 text-sm font-bold text-cinch-black outline-none placeholder:text-cinch-muted focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft dark:placeholder:text-cinch-slate"
                 inputMode="numeric"
                 placeholder="10 digit phone"
                 value={customer.phone}
@@ -1213,14 +1213,14 @@ function OnlineStorePage({ storeSlug }) {
                 required
               />
               <input
-                className="rounded-2xl border border-cinch-muted/25 bg-white/80 px-4 py-3 text-sm font-bold outline-none focus:border-cinch-emerald dark:bg-cinch-panel"
+                className="rounded-2xl border border-cinch-muted/25 bg-white/90 px-4 py-3 text-sm font-bold text-cinch-black outline-none placeholder:text-cinch-muted focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft dark:placeholder:text-cinch-slate"
                 type="email"
                 placeholder="Email optional"
                 value={customer.email}
                 onChange={(event) => setCustomer((current) => ({ ...current, email: event.target.value }))}
               />
               <textarea
-                className="min-h-24 rounded-2xl border border-cinch-muted/25 bg-white/80 px-4 py-3 text-sm font-bold outline-none focus:border-cinch-emerald dark:bg-cinch-panel"
+                className="min-h-24 rounded-2xl border border-cinch-muted/25 bg-white/90 px-4 py-3 text-sm font-bold text-cinch-black outline-none placeholder:text-cinch-muted focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft dark:placeholder:text-cinch-slate"
                 placeholder="Address optional"
                 value={customer.address}
                 onChange={(event) => setCustomer((current) => ({ ...current, address: event.target.value }))}
@@ -1232,9 +1232,9 @@ function OnlineStorePage({ storeSlug }) {
             </form>
 
             {createdOrder ? (
-              <div className="mt-5 rounded-[1.25rem] border border-cinch-emerald/40 bg-cinch-mint/30 p-4">
+              <div className="mt-5 rounded-[1.25rem] border border-cinch-emerald/40 bg-cinch-fresh/50 p-4 dark:bg-cinch-line/70">
                 <strong className="block text-sm">Order placed: {createdOrder.invoice_number}</strong>
-                <p className="mt-1 text-xs font-bold text-cinch-muted">Download the invoice for this checkout.</p>
+                <p className="mt-1 text-xs font-bold text-cinch-muted dark:text-cinch-slate">Download the invoice for this checkout.</p>
                 <button className="secondary-button mt-3 w-full" onClick={downloadCreatedInvoice}>
                   Download Invoice
                 </button>
@@ -1280,7 +1280,7 @@ function AdvisorModal({
           <label className="grid gap-2 text-sm font-black">
             Business type
             <select
-              className="rounded-2xl border border-cinch-muted/25 bg-white/70 px-4 py-3 font-bold outline-none dark:bg-cinch-panel"
+              className="rounded-2xl border border-cinch-muted/25 bg-white/90 px-4 py-3 font-bold text-cinch-black outline-none focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft"
               value={advisorProfile}
               onChange={(event) => setAdvisorProfile(event.target.value)}
             >
@@ -1294,7 +1294,7 @@ function AdvisorModal({
           <label className="grid gap-2 text-sm font-black">
             Number of outlets
             <select
-              className="rounded-2xl border border-cinch-muted/25 bg-white/70 px-4 py-3 font-bold outline-none dark:bg-cinch-panel"
+              className="rounded-2xl border border-cinch-muted/25 bg-white/90 px-4 py-3 font-bold text-cinch-black outline-none focus:border-cinch-emerald dark:border-cinch-slate/20 dark:bg-cinch-panel dark:text-cinch-soft"
               value={advisorOutlets}
               onChange={(event) => setAdvisorOutlets(event.target.value)}
             >
@@ -1305,7 +1305,7 @@ function AdvisorModal({
           </label>
         </div>
 
-        <div className="mt-6 rounded-[1.5rem] border border-cinch-mint/30 bg-cinch-mint/15 p-5">
+        <div className="mt-6 rounded-[1.5rem] border border-cinch-emerald/25 bg-cinch-fresh/40 p-5 dark:border-cinch-mint/20 dark:bg-cinch-line/60">
           <p className="text-xs font-black uppercase text-cinch-forest dark:text-cinch-mint">Recommended now</p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {advisorRecommendation.map((item) => (

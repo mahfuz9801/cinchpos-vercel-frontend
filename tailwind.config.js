@@ -12,9 +12,11 @@ export default {
           deep: "#022C22",
           forest: "#0F3D2E",
           emerald: "#1ED760",
-          mint: "#A6EEB8",
+          mint: "#4ADE80",
+          fresh: "#A7F3D0",
           soft: "#E6F4EA",
           slate: "#9FB3A8",
+          cool: "#94A3B8",
           muted: "#5F7368",
           line: "#1A2A24",
           success: "#22C55E",
@@ -28,7 +30,8 @@ export default {
         display: ["Space Grotesk", "Manrope", "ui-sans-serif", "system-ui", "sans-serif"]
       },
       boxShadow: {
-        glow: "0 28px 90px rgba(30, 215, 96, 0.18)",
+        glow: "0 24px 70px rgba(74, 222, 128, 0.18)",
+        glowStrong: "0 28px 90px rgba(34, 197, 94, 0.28)",
         soft: "0 24px 70px rgba(5, 8, 7, 0.18)"
       },
       backgroundImage: {
