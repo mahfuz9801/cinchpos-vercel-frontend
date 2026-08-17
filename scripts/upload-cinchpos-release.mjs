@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, "..");
-const defaultDesktopDist = path.resolve(projectRoot, "..", "cinchpos", "cinchpos desktop", "frontend", "dist");
+const defaultDesktopDist = path.resolve(projectRoot, "..", "cinchpos desktop", "frontend", "dist");
 const defaultBlobBaseUrl = "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com";
 
 function loadEnvFile(filePath) {
@@ -29,7 +29,7 @@ function parseVersion(argv) {
   if (flagIndex >= 0 && argv[flagIndex + 1]) {
     return argv[flagIndex + 1];
   }
-  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.10";
+  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.11";
 }
 
 function requiredFile(distDir, fileName) {
@@ -181,6 +181,11 @@ async function main() {
     channel: "stable",
     releaseDate,
     notes: [
+      "Inventory stock now decreases automatically when products are sold through POS or a standard invoice.",
+      "Products without barcodes can be saved when item name, MRP, and selling price are provided.",
+      "Long thermal receipts use measured continuous height and remain readable instead of being compressed.",
+      "Supplier purchases, GST, payment status, notes, and optional bill attachments now use one consolidated workflow.",
+      "Previously saved Purchase Bills are migrated into Purchase Records without removing their attachments.",
       "CinchPOS bill tabs now always display open bills as Bill 1, Bill 2, Bill 3 even after older bills are deleted.",
       "Sales Report now downloads customised reports by date range, payment status, content level, and CSV or JSON format.",
       "Login remains active after the computer restarts until the user manually logs out or the saved session expires.",

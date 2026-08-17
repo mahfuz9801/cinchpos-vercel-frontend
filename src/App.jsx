@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 
 const hostedDownloadLinks = {
   windows:
-    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.10",
-  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.10"
+    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.11",
+  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.11"
 };
 
 const downloadLinks = {
@@ -25,12 +25,16 @@ const navItemById = Object.fromEntries(navItems.map((item) => [item.id, item]));
 const navItemByPath = Object.fromEntries(navItems.map((item) => [item.path, item]));
 
 const latestBuild = {
-  label: "August 10, 2026 build",
-  title: "CinchPOS 1.0.10 desktop release",
+  label: "August 17, 2026 build",
+  title: "CinchPOS 1.0.11 desktop release",
   summary:
-    "This web deploy points customers to CinchPOS 1.0.10 with corrected POS bill tab numbering, custom sales report downloads, persistent login after system restart, cleaner restart-based update messaging, duplicate app cleanup, thermal receipt fixes, role-based employee access, reliable online store publishing, and the latest billing, inventory, invoice, and layout improvements.",
+    "This release updates stock immediately after billing, supports products without barcodes, keeps long thermal receipts readable, and combines supplier purchases and purchase-bill attachments into one accurate workflow. It also contains all billing, reporting, security, online-store, printing, and employee-access improvements from earlier releases.",
   highlights: [
-    "Shop installations are prompted when this newer desktop update is available",
+    "Installed CinchPOS apps are prompted to download version 1.0.11 and apply it with Restart & Update",
+    "Billing now deducts the sold quantity from the matching inventory item immediately",
+    "Products can be saved without a barcode when item name, MRP, and selling price are present",
+    "Long thermal bills use their natural continuous height and no longer shrink into unreadable output",
+    "Purchase and Purchase Bills are consolidated into one form and one record list without losing old records",
     "CinchPOS bill tabs now always display open bills as Bill 1, Bill 2, Bill 3 even after older bills are deleted",
     "Sales Report now downloads customised reports by date range, payment status, content level, and CSV or JSON format",
     "Login remains active after the computer restarts until the user manually logs out or the session expires",
@@ -82,7 +86,7 @@ const featureCards = [
   },
   {
     title: "Inventory + purchase flow",
-    body: "Track stock, barcodes, HSN/SAC, MRP, inclusive selling price, GST breakup, supplier purchases, and purchase bills.",
+    body: "Track stock, optional barcodes, HSN/SAC, MRP, inclusive selling price, GST breakup, supplier purchases, payment status, and attached supplier bills in one record.",
     tags: ["Stock", "Supplier", "Documents"]
   },
   {

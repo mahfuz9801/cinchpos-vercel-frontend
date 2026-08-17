@@ -9,7 +9,7 @@ repo is pushed or redeployed.
 
 ## Current Deployment Marker
 
-- Build label: `release-1.0.10`
+- Build label: `release-1.0.11`
 - Public marker after deployment: `/deployment.json`
 - Visible website update: current desktop build panel in the Download tab
 - Desktop build messaging: restored Software Update panel, previous local bill
@@ -18,7 +18,8 @@ repo is pushed or redeployed.
   inventory and dashboard layout fixes, invoice status/delete support, sales
   customised sales report download, privacy hardening, persistent login after
   system restart, restart-based update messaging, duplicate invoice-number protection,
-  long thermal bill printing fixes, and Mac/Windows installers
+  long thermal bill printing fixes, automatic inventory deduction after billing,
+  barcode-optional products, consolidated supplier purchases, and Mac/Windows installers
 
 ## Run Locally
 
@@ -38,8 +39,8 @@ npm run build
 Production defaults use Vercel Blob because the installers are larger than the
 normal Vercel and GitHub file upload limits:
 
-- Windows: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.10`
-- macOS: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.10`
+- Windows: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.11`
+- macOS: `https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.11`
 
 ## Desktop Auto Updates
 
