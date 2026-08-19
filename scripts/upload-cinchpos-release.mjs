@@ -29,7 +29,7 @@ function parseVersion(argv) {
   if (flagIndex >= 0 && argv[flagIndex + 1]) {
     return argv[flagIndex + 1];
   }
-  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.11";
+  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.12";
 }
 
 function requiredFile(distDir, fileName) {
@@ -181,6 +181,9 @@ async function main() {
     channel: "stable",
     releaseDate,
     notes: [
+      "Large thermal bills now use driver-safe fixed-scale pages instead of one oversized custom page that printer drivers shrink.",
+      "Thermal printing measures only receipt content and preserves readable 100% text size across long bills.",
+      "Sales Report can download a structured GSTR-1 Excel workbook based on the supplied reference format.",
       "Inventory stock now decreases automatically when products are sold through POS or a standard invoice.",
       "Products without barcodes can be saved when item name, MRP, and selling price are provided.",
       "Long thermal receipts use measured continuous height and remain readable instead of being compressed.",

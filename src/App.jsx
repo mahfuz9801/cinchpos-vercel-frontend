@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 
 const hostedDownloadLinks = {
   windows:
-    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.11",
-  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.11"
+    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.12",
+  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.12"
 };
 
 const downloadLinks = {
@@ -26,11 +26,14 @@ const navItemByPath = Object.fromEntries(navItems.map((item) => [item.path, item
 
 const latestBuild = {
   label: "August 17, 2026 build",
-  title: "CinchPOS 1.0.11 desktop release",
+  title: "CinchPOS 1.0.12 desktop release",
   summary:
-    "This release updates stock immediately after billing, supports products without barcodes, keeps long thermal receipts readable, and combines supplier purchases and purchase-bill attachments into one accurate workflow. It also contains all billing, reporting, security, online-store, printing, and employee-access improvements from earlier releases.",
+    "This release fixes the long thermal bill compression at the print-engine level and adds the reference-based GSTR-1 Excel sales report. It also contains all billing, inventory, security, online-store, printing, and employee-access improvements from earlier releases.",
   highlights: [
-    "Installed CinchPOS apps are prompted to download version 1.0.11 and apply it with Restart & Update",
+    "Installed CinchPOS apps are prompted to download version 1.0.12 and apply it with Restart & Update",
+    "Large thermal bills now use driver-safe fixed-scale pages instead of one oversized page that printer drivers shrink",
+    "Thermal printing measures only receipt content and preserves readable 100% text size across long bills",
+    "Sales Report can download a structured GSTR-1 Excel workbook based on the supplied reference format",
     "Billing now deducts the sold quantity from the matching inventory item immediately",
     "Products can be saved without a barcode when item name, MRP, and selling price are present",
     "Long thermal bills use their natural continuous height and no longer shrink into unreadable output",

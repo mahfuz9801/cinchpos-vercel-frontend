@@ -1,9 +1,12 @@
 {
   "app": "CinchPOS",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "channel": "stable",
-  "releaseDate": "2026-08-17T15:16:31.575Z",
+  "releaseDate": "2026-08-19T16:26:57.017Z",
   "notes": [
+    "Large thermal bills now use driver-safe fixed-scale pages instead of one oversized custom page that printer drivers shrink.",
+    "Thermal printing measures only receipt content and preserves readable 100% text size across long bills.",
+    "Sales Report can download a structured GSTR-1 Excel workbook based on the supplied reference format.",
     "Inventory stock now decreases automatically when products are sold through POS or a standard invoice.",
     "Products without barcodes can be saved when item name, MRP, and selling price are provided.",
     "Long thermal receipts use measured continuous height and remain readable instead of being compressed.",
@@ -30,12 +33,12 @@
     "windows": {
       "fileName": "CinchPOS-Setup.exe",
       "url": "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe",
-      "sourceFile": "CinchPOS Setup 1.0.11.exe"
+      "sourceFile": "CinchPOS Setup 1.0.12.exe"
     },
     "mac": {
       "fileName": "CinchPOS.dmg",
       "url": "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg",
-      "sourceFile": "CinchPOS-1.0.11-arm64.dmg"
+      "sourceFile": "CinchPOS-1.0.12-arm64.dmg"
     }
   },
   "updateFeed": {
