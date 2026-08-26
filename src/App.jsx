@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { Analytics } from "@vercel/analytics/react";
 
 const hostedDownloadLinks = {
   windows:
@@ -196,10 +197,20 @@ function currency(value) {
 function App() {
   const onlineStoreSlug = parseOnlineStoreSlug();
   if (onlineStoreSlug) {
-    return <OnlineStorePage storeSlug={onlineStoreSlug} />;
+    return (
+      <>
+        <OnlineStorePage storeSlug={onlineStoreSlug} />
+        <Analytics />
+      </>
+    );
   }
 
-  return <MarketingApp />;
+  return (
+    <>
+      <MarketingApp />
+      <Analytics />
+    </>
+  );
 }
 
 function parseOnlineStoreSlug() {
