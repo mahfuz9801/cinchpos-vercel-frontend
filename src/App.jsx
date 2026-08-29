@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 
 const hostedDownloadLinks = {
   windows:
-    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.12",
-  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.12"
+    "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe?v=1.0.13",
+  mac: "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg?v=1.0.13"
 };
 
 const downloadLinks = {
@@ -25,12 +25,12 @@ const navItemById = Object.fromEntries(navItems.map((item) => [item.id, item]));
 const navItemByPath = Object.fromEntries(navItems.map((item) => [item.path, item]));
 
 const latestBuild = {
-  label: "August 17, 2026 build",
-  title: "CinchPOS 1.0.12 desktop release",
+  label: "August 29, 2026 build",
+  title: "CinchPOS 1.0.13 desktop release",
   summary:
     "This release fixes the long thermal bill compression at the print-engine level and adds the reference-based GSTR-1 Excel sales report. It also contains all billing, inventory, security, online-store, printing, and employee-access improvements from earlier releases.",
   highlights: [
-    "Installed CinchPOS apps are prompted to download version 1.0.12 and apply it with Restart & Update",
+    "Installed CinchPOS apps are prompted to download version 1.0.13 and apply it with Restart & Update",
     "Large thermal bills now use driver-safe fixed-scale pages instead of one oversized page that printer drivers shrink",
     "Thermal printing measures only receipt content and preserves readable 100% text size across long bills",
     "Sales Report can download a structured GSTR-1 Excel workbook based on the supplied reference format",

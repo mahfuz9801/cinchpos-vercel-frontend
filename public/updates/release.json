@@ -1,44 +1,28 @@
 {
   "app": "CinchPOS",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "channel": "stable",
-  "releaseDate": "2026-08-19T16:26:57.017Z",
+  "releaseDate": "2026-08-29T03:43:02.457Z",
   "notes": [
-    "Large thermal bills now use driver-safe fixed-scale pages instead of one oversized custom page that printer drivers shrink.",
-    "Thermal printing measures only receipt content and preserves readable 100% text size across long bills.",
-    "Sales Report can download a structured GSTR-1 Excel workbook based on the supplied reference format.",
-    "Inventory stock now decreases automatically when products are sold through POS or a standard invoice.",
-    "Products without barcodes can be saved when item name, MRP, and selling price are provided.",
-    "Long thermal receipts use measured continuous height and remain readable instead of being compressed.",
-    "Supplier purchases, GST, payment status, notes, and optional bill attachments now use one consolidated workflow.",
-    "Previously saved Purchase Bills are migrated into Purchase Records without removing their attachments.",
-    "CinchPOS bill tabs now always display open bills as Bill 1, Bill 2, Bill 3 even after older bills are deleted.",
-    "Sales Report now downloads customised reports by date range, payment status, content level, and CSV or JSON format.",
-    "Login remains active after the computer restarts until the user manually logs out or the saved session expires.",
-    "Software Update now guides users through Download Update and Restart & Update for native updates.",
-    "Thermal receipts now print at native 58mm, 76mm, or 80mm width instead of shrinking into a tiny center column.",
-    "Long shop bills use measured continuous receipt height so text stays readable instead of being compressed.",
-    "POS item dumps are no longer printed as receipt Notes on older or newly generated bills.",
-    "Print Settings include a shop-printer checklist for roll size, margins, and shrink-to-fit troubleshooting.",
-    "App Info now clearly shows the desktop version and Software Update controls.",
-    "Owners can recover previous local customers, invoices, and payments into their new account workspace after a database backup.",
-    "Save & Print now uses collision-safe backend invoice numbering.",
-    "Employee role access can be controlled from Manage Employee.",
-    "Login stays active between app restarts with persistent account sessions.",
-    "Create Account and Login are simplified to business name, email or phone, and password or OTP.",
-    "Online store publishing now syncs reliably to cinchpos.in with bundled certificate support.",
-    "The Sell Online URL only opens after the website catalog has synced successfully."
+    "Standard Invoicing now uses the GST invoice layout with PAN, separate business contact details, place of supply, HSN/SAC tax summary, tax in words, and proper customer/signatory areas.",
+    "Business Management can store PAN, business state, state code, stamp, and signature details used on standard GST invoices.",
+    "Standard Invoicing layout has been tightened into horizontal business, customer, and payment sections with less wasted space.",
+    "CinchPOS desktop has been rebuilt as version 1.0.13 for macOS and Windows."
   ],
   "downloads": {
     "windows": {
       "fileName": "CinchPOS-Setup.exe",
       "url": "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe",
-      "sourceFile": "CinchPOS Setup 1.0.12.exe"
+      "sourceFile": "CinchPOS Setup 1.0.13.exe",
+      "size": 149693502,
+      "sha512": "KaURrfXE5FB8Axp+JjDQB4CEseFomePccb51eNiRKzHn6m5T2ehOuk/STlq7WjBBB9npNFKt30yh5Sw190NFcw=="
     },
     "mac": {
       "fileName": "CinchPOS.dmg",
       "url": "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg",
-      "sourceFile": "CinchPOS-1.0.12-arm64.dmg"
+      "sourceFile": "CinchPOS-1.0.13-arm64.dmg",
+      "size": 161548193,
+      "sha512": "Ye22kbTuCvUP15CvW/oaVmcUtXxwXyPnY+p6Yb9Jt3Ix8nYq+sevHFDHSRf8YEWRmZUiLWENtFpJZmvs+cYXNg=="
     }
   },
   "updateFeed": {
