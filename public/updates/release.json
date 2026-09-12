@@ -1,28 +1,27 @@
 {
   "app": "CinchPOS",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "channel": "stable",
-  "releaseDate": "2026-08-29T03:43:02.457Z",
+  "releaseDate": "2026-09-12T06:02:46.326Z",
   "notes": [
-    "Standard Invoicing now uses the GST invoice layout with PAN, separate business contact details, place of supply, HSN/SAC tax summary, tax in words, and proper customer/signatory areas.",
-    "Business Management can store PAN, business state, state code, stamp, and signature details used on standard GST invoices.",
-    "Standard Invoicing layout has been tightened into horizontal business, customer, and payment sections with less wasted space.",
-    "CinchPOS desktop has been rebuilt as version 1.0.13 for macOS and Windows."
+    "Standard Invoicing now supports A4, A5, and Letter GST invoice formats.",
+    "Standard invoice printing uses the selected standard invoice format while CinchPOS keeps thermal printing as its default.",
+    "Standard invoices can receive multiple partial payments and are marked Paid only after the balance reaches zero.",
+    "Invoice View now shows payment history with running paid and balance amounts.",
+    "Sales Report GSTR-1 export now keeps visible totals, grand totals, Sales Return, and Purchase Return tax-total columns.",
+    "Standard invoice inventory search is smoother on large inventory lists.",
+    "CinchPOS desktop has been rebuilt as version 1.0.14 for macOS and Windows."
   ],
   "downloads": {
     "windows": {
       "fileName": "CinchPOS-Setup.exe",
       "url": "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS-Setup.exe",
-      "sourceFile": "CinchPOS Setup 1.0.13.exe",
-      "size": 149693502,
-      "sha512": "KaURrfXE5FB8Axp+JjDQB4CEseFomePccb51eNiRKzHn6m5T2ehOuk/STlq7WjBBB9npNFKt30yh5Sw190NFcw=="
+      "sourceFile": "CinchPOS Setup 1.0.14.exe"
     },
     "mac": {
       "fileName": "CinchPOS.dmg",
       "url": "https://7aakdg0aolddhlmb.public.blob.vercel-storage.com/downloads/CinchPOS.dmg",
-      "sourceFile": "CinchPOS-1.0.13-arm64.dmg",
-      "size": 161548193,
-      "sha512": "Ye22kbTuCvUP15CvW/oaVmcUtXxwXyPnY+p6Yb9Jt3Ix8nYq+sevHFDHSRf8YEWRmZUiLWENtFpJZmvs+cYXNg=="
+      "sourceFile": "CinchPOS-1.0.14-arm64.dmg"
     }
   },
   "updateFeed": {
