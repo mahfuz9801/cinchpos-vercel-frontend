@@ -29,7 +29,7 @@ function parseVersion(argv) {
   if (flagIndex >= 0 && argv[flagIndex + 1]) {
     return argv[flagIndex + 1];
   }
-  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.12";
+  return process.env.CINCHPOS_RELEASE_VERSION || "1.0.15";
 }
 
 function requiredFile(distDir, fileName) {
@@ -181,13 +181,11 @@ async function main() {
     channel: "stable",
     releaseDate,
     notes: [
-      "Standard Invoicing now supports A4, A5, and Letter GST invoice formats.",
-      "Standard invoice printing uses the selected standard invoice format while CinchPOS keeps thermal printing as its default.",
-      "Standard invoices can receive multiple partial payments and are marked Paid only after the balance reaches zero.",
-      "Invoice View now shows payment history with running paid and balance amounts.",
-      "Sales Report GSTR-1 export now keeps visible totals, grand totals, Sales Return, and Purchase Return tax-total columns.",
-      "Standard invoice inventory search is smoother on large inventory lists.",
-      "CinchPOS desktop has been rebuilt as version 1.0.14 for macOS and Windows."
+      "Lightning-fast barcode scanning in POS billing window with O(1) indexed lookup and instant item adding.",
+      "Eliminated search lag, main thread freezing, and input latency on large inventory databases during rapid barcode scanner input.",
+      "Added hardware barcode scanner rapid burst detection and automatic search input auto-focus retention after adding bill items.",
+      "Optimized inventory search ranking with ultra-fast string matching.",
+      "CinchPOS desktop has been rebuilt as version 1.0.15 for macOS and Windows."
     ],
     downloads: {
       windows: {
